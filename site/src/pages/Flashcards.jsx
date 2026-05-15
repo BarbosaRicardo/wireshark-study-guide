@@ -302,7 +302,7 @@ export default function Flashcards() {
                 </div>
                 <div className="flex items-center justify-center gap-2 mt-4 text-slate-500 text-sm">
                   <div className="w-6 h-6 rounded-full border-2 border-slate-600 flex items-center justify-center animate-bounce">
-                    <div className="w-1.5 h-1.5 bg-slate-500 rounded-full" />
+                    <div className="w-1.5 h-1.5 rounded-full" style={{ background: '#475569' }} />
                   </div>
                   <span>Tap to reveal</span>
                 </div>

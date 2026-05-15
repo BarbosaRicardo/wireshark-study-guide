@@ -109,7 +109,7 @@ capinfos -c capture.pcapng`}</pre>
                 <span className="font-bold text-sm text-white">{label}</span>
                 <code className="text-xs" style={{ color: '#7dd3fc' }}>{filter}</code>
               </div>
-              <div className="text-xs text-slate-600">{desc}</div>
+              <div className="text-xs text-slate-400">{desc}</div>
             </div>
           </div>
         ))}

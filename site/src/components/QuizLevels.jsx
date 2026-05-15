@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Lock, ChevronDown, ChevronUp, BookOpen, Youtube, ExternalLink, X, ChevronRight } from 'lucide-react'
+import { Lock, ChevronDown, ChevronUp, BookOpen, Youtube, ExternalLink, X, ChevronRight, FlaskConical } from 'lucide-react'
 import Quiz from './Quiz'
 import { useProgress } from '../hooks/useProgress'
 import { QUIZZES } from '../data/quizzes'
@@ -193,6 +193,42 @@ function LevelCard({ meta, questions, chapterId, locked, passed }) {
   )
 }
 
+function ScenarioCard({ questions, chapterId }) {
+  const [open, setOpen] = useState(false)
+
+  if (!questions || questions.length === 0) return null
+
+  return (
+    <div className="rounded-2xl overflow-hidden" style={{ border: `1px solid ${open ? 'rgba(34,197,94,0.6)' : 'rgba(34,197,94,0.25)'}`, transition: 'border-color 0.2s' }}>
+      <button
+        onClick={() => setOpen(o => !o)}
+        className="w-full text-left px-4 py-3 flex items-center gap-3 transition-colors"
+        style={{ background: open ? 'linear-gradient(135deg, rgba(6,14,26,0.95), rgba(5,30,15,0.95))' : 'rgba(255,255,255,0.03)' }}
+      >
+        <FlaskConical size={18} style={{ color: '#4ade80' }} className="flex-shrink-0" />
+        <div className="flex-1 min-w-0">
+          <div className="font-bold text-sm text-white">Field Scenarios</div>
+          <div className="text-xs mt-0.5 leading-snug" style={{ color: open ? '#4ade80' : '#64748b' }}>
+            Real captures, real decisions. No lock — open to all levels.
+          </div>
+        </div>
+        <span className="text-xs font-bold px-2 py-0.5 rounded-full flex-shrink-0" style={{ background: 'rgba(34,197,94,0.15)', color: '#4ade80' }}>
+          {questions.length}Q
+        </span>
+        {open ? <ChevronUp size={18} className="text-slate-400 flex-shrink-0" /> : <ChevronDown size={18} className="text-slate-600 flex-shrink-0" />}
+      </button>
+
+      {open && (
+        <div style={{ borderTop: '1px solid rgba(34,197,94,0.2)' }}>
+          <div className="p-4">
+            <Quiz chapterId={chapterId} questions={questions} level={4} />
+          </div>
+        </div>
+      )}
+    </div>
+  )
+}
+
 export default function QuizLevels({ chapterId }) {
   const { getChapterStatus } = useProgress()
   const status = getChapterStatus(chapterId)
@@ -205,6 +241,7 @@ export default function QuizLevels({ chapterId }) {
     level1: isLegacy ? data : (data.level1 || []),
     level2: isLegacy ? [] : (data.level2 || []),
     level3: isLegacy ? [] : (Array.isArray(data.level3) ? data.level3 : (data.level3?.questions || [])),
+    scenario: isLegacy ? [] : (data.scenario || []),
   }
 
   const locked = [false, !status.level1Passed, !status.level2Passed]
@@ -227,6 +264,7 @@ export default function QuizLevels({ chapterId }) {
           passed={passed[i]}
         />
       ))}
+      <ScenarioCard questions={levels.scenario} chapterId={chapterId} />
     </div>
   )
 }

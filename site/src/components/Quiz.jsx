@@ -70,6 +70,54 @@ function MCQQuestion({ q, onAnswer, answered }) {
   )
 }
 
+function TFQuestion({ q, onAnswer, answered }) {
+  const [selected, setSelected] = useState(null)
+
+  const handleSelect = (val) => {
+    if (answered) return
+    setSelected(val)
+    onAnswer(val === q.answer)
+  }
+
+  return (
+    <div className="flex gap-3 mt-4">
+      {['True', 'False'].map((val) => {
+        const isCorrect = val === q.answer
+        const isSelected = selected === val
+
+        let style = {
+          background: 'rgba(255,255,255,0.03)',
+          border: '1px solid rgba(255,255,255,0.1)',
+          color: '#94a3b8',
+        }
+        if (isSelected && isCorrect) {
+          style = { background: 'rgba(16,185,129,0.12)', border: '1px solid rgba(16,185,129,0.5)', color: '#6ee7b7', boxShadow: '0 0 12px rgba(16,185,129,0.2)' }
+        } else if (isSelected && !isCorrect) {
+          style = { background: 'rgba(239,68,68,0.1)', border: '1px solid rgba(239,68,68,0.5)', color: '#fca5a5', boxShadow: '0 0 12px rgba(239,68,68,0.15)' }
+        } else if (answered && isCorrect) {
+          style = { background: 'rgba(16,185,129,0.08)', border: '1px solid rgba(16,185,129,0.35)', color: '#6ee7b7' }
+        } else if (answered) {
+          style = { background: 'rgba(255,255,255,0.02)', border: '1px solid rgba(255,255,255,0.06)', color: '#475569' }
+        }
+
+        return (
+          <button
+            key={val}
+            onClick={() => handleSelect(val)}
+            disabled={answered}
+            className="flex-1 py-3 rounded-xl text-sm font-bold transition-all duration-200"
+            style={style}
+            onMouseEnter={e => { if (!answered) e.currentTarget.style.background = 'rgba(14,165,233,0.1)' }}
+            onMouseLeave={e => { if (!answered) e.currentTarget.style.background = style.background }}
+          >
+            {answered && isCorrect ? '✓ ' : answered && isSelected && !isCorrect ? '✗ ' : ''}{val}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
 const LEVEL_THEME = {
   1: {
     headerBg: 'linear-gradient(135deg, rgba(6,14,26,0.95), rgba(15,30,55,0.95))',
@@ -94,6 +142,14 @@ const LEVEL_THEME = {
     glow: 'rgba(239,68,68,0.2)',
     label: 'Level 3 · Graduate',
     badge: 'rgba(239,68,68,0.15)',
+  },
+  4: {
+    headerBg: 'linear-gradient(135deg, rgba(6,14,26,0.95), rgba(5,30,15,0.95))',
+    border: 'rgba(34,197,94,0.3)',
+    accent: '#4ade80',
+    glow: 'rgba(34,197,94,0.2)',
+    label: 'Field Scenarios',
+    badge: 'rgba(34,197,94,0.15)',
   },
 }
 
@@ -304,8 +360,12 @@ export default function Quiz({ chapterId, questions, level = 1 }) {
               {q.question}
             </p>
 
-            {q.type === 'mcq' && (
+            {(q.type === 'mcq' || q.type === 'scenario') && (
               <MCQQuestion q={q} onAnswer={handleAnswer} answered={answered} />
+            )}
+
+            {q.type === 'tf' && (
+              <TFQuestion q={q} onAnswer={handleAnswer} answered={answered} />
             )}
 
             {/* Explanation */}

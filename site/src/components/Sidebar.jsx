@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
   Menu, X, ScanSearch, BarChart2, Home,
-  Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard,, LayoutGrid, LogIn, LogOut
+  Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard, LayoutGrid, LogIn, LogOut
 } from 'lucide-react'
 import { CHAPTERS } from '../data/chapters'
 import { useProgress } from '../hooks/useProgress'

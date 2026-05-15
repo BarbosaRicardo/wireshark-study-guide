@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
   Menu, X, ScanSearch, BarChart2, Home,
-  Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard,
+  Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard,, LayoutGrid, LogIn, LogOut
 } from 'lucide-react'
 import { CHAPTERS } from '../data/chapters'
 import { useProgress } from '../hooks/useProgress'
+import { supabase } from '../lib/supabase'
 import QuizReport from './QuizReport'
 
 const ICON_MAP = {
@@ -15,7 +16,37 @@ const ICON_MAP = {
 export default function Sidebar() {
   const [open, setOpen] = useState(false)
   const [reportOpen, setReportOpen] = useState(false)
-  const { getChapterStatus, overallProgress } = useProgress()
+  const [session, setSession] = useState(null)
+  const [showLogin, setShowLogin] = useState(false)
+  const [loginEmail, setLoginEmail] = useState('')
+  const [loginPassword, setLoginPassword] = useState('')
+  const [loginError, setLoginError] = useState('')
+  const [loginLoading, setLoginLoading] = useState(false)
+
+  useEffect(() => {
+    supabase.auth.getSession().then(({ data }) => setSession(data.session))
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_, s) => setSession(s))
+    return () => subscription.unsubscribe()
+  }, [])
+
+  function resolveEmail(input) {
+    const t = input.trim()
+    return t.includes('@') ? t : `${t}@scadahub.io`
+  }
+
+  async function handleLogin(e) {
+    e.preventDefault()
+    setLoginError('')
+    setLoginLoading(true)
+    const { error } = await supabase.auth.signInWithPassword({
+      email: resolveEmail(loginEmail),
+      password: loginPassword,
+    })
+    setLoginLoading(false)
+    if (error) { setLoginError(error.message) } else { setShowLogin(false) }
+  }
+
+    const { getChapterStatus, overallProgress } = useProgress()
   const prog = overallProgress()
 
   const NavItem = ({ ch }) => {
@@ -78,35 +109,62 @@ export default function Sidebar() {
           <NavItem key={ch.id} ch={ch} />
         ))}
       </nav>
-
-      {/* Footer */}
-      <div className="p-4 space-y-2" style={{ borderTop: '1px solid rgba(255,255,255,0.05)' }}>
+            {/* Footer */}
+      <div className="p-4 space-y-3" style={{ borderTop: '1px solid rgba(14,165,233,0.12)' }}>
+        <a
+          href={`${import.meta.env.BASE_URL}study_guide.pdf`}
+          target="_blank"
+          rel="noopener noreferrer"
+          className="flex items-center justify-center gap-2 w-full px-3 py-2.5 rounded-xl text-white text-xs font-bold transition-all"
+          style={{ background: 'linear-gradient(135deg,#0284c7,#0ea5e9)', boxShadow: '0 0 14px rgba(14,165,233,0.35)' }}
+        >
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="12" y1="18" x2="12" y2="12"/><line x1="9" y1="15" x2="15" y2="15"/></svg>
+          Download PDF Study Guide
+        </a>
         <a
           href="https://scada-hub.vercel.app"
-          className="flex items-center justify-center gap-2 w-full px-3 py-2.5 rounded-xl text-xs font-bold transition-all hover:scale-105"
-          style={{
-            background: 'rgba(14,165,233,0.1)',
-            border: '1px solid rgba(14,165,233,0.25)',
-            color: '#7dd3fc',
-          }}
+          className="flex items-center justify-center gap-2 w-full px-3 py-2 rounded-xl text-xs font-semibold transition-all"
+          style={{ background: 'rgba(14,165,233,0.07)', border: '1px solid rgba(14,165,233,0.18)', color: 'rgba(14,165,233,0.7)' }}
         >
-          <Home size={13} />
-          SCADA Hub
+          <LayoutGrid size={12} />
+          ← SCADA Hub
         </a>
-        <button
-          onClick={() => { setOpen(false); setReportOpen(true) }}
-          className="flex items-center justify-center gap-2 w-full px-3 py-2.5 rounded-xl text-xs font-bold transition-all hover:scale-105"
-          style={{
-            background: 'rgba(34,211,238,0.08)',
-            border: '1px solid rgba(34,211,238,0.2)',
-            color: '#67e8f9',
-          }}
-        >
-          <BarChart2 size={13} />
-          Quiz Report
-        </button>
-        <p className="text-xs text-slate-600 text-center">
-          SCADA Automation Engineering · Wireshark · May 2026
+
+        {session ? (
+          <div className="flex items-center justify-between gap-2 px-1">
+            <span className="text-xs truncate" style={{ color: 'rgba(14,165,233,0.5)' }}>{session.user.email}</span>
+            <button onClick={() => supabase.auth.signOut()} title="Sign out" style={{ color: 'rgba(14,165,233,0.5)' }} className="hover:text-rose-400 transition flex-shrink-0">
+              <LogOut size={13} />
+            </button>
+          </div>
+        ) : (
+          <>
+            <button
+              onClick={() => setShowLogin(!showLogin)}
+              className="flex items-center justify-center gap-2 w-full px-3 py-2 rounded-xl text-xs font-semibold transition-all"
+              style={{ background: 'rgba(14,165,233,0.07)', border: '1px solid rgba(14,165,233,0.18)', color: 'rgba(14,165,233,0.7)' }}
+            >
+              <LogIn size={12} />
+              {showLogin ? 'Cancel' : 'Sign In to Track Progress'}
+            </button>
+            {showLogin && (
+              <form onSubmit={handleLogin} className="flex flex-col gap-1.5">
+                {loginError && <p className="text-xs text-rose-400">{loginError}</p>}
+                <input type="text" placeholder="username or email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)}
+                  className="bg-slate-800/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-white/20" />
+                <input type="password" placeholder="password" value={loginPassword} onChange={e => setLoginPassword(e.target.value)}
+                  className="bg-slate-800/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-white/20" />
+                <button type="submit" disabled={loginLoading}
+                  className="font-bold rounded-lg px-3 py-1.5 text-xs transition text-white disabled:opacity-50"
+                  style={{ background: 'linear-gradient(135deg,#0284c7,#0ea5e9)' }}>
+                  {loginLoading ? 'Signing in…' : 'Sign In'}
+                </button>
+              </form>
+            )}
+          </>
+        )}
+        <p className="text-center text-xs" style={{ color: 'rgba(14,165,233,0.35)' }}>
+          Wireshark · IEEE 802 · May 2026
         </p>
       </div>
     </div>

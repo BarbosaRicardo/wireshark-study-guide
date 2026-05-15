@@ -1,0 +1,41 @@
+export const CHAPTERS = [
+  { id: 'intro',       label: 'Ch 1: Intro to Wireshark',      title: 'Introduction to Wireshark',          path: '/',          icon: 'ScanSearch', prev: null,        next: 'capture'    },
+  { id: 'capture',     label: 'Ch 2: Capture Techniques',       title: 'Capture Techniques & Interfaces',    path: '/capture',   icon: 'Wifi',       prev: 'intro',      next: 'filters'    },
+  { id: 'filters',     label: 'Ch 3: Display Filters',          title: 'Display & Capture Filters',         path: '/filters',   icon: 'Filter',     prev: 'capture',    next: 'dissectors' },
+  { id: 'dissectors',  label: 'Ch 4: Protocol Dissectors',      title: 'Protocol Dissectors & Decode As',   path: '/dissectors',icon: 'Layers',     prev: 'filters',    next: 'modbus'     },
+  { id: 'modbus',      label: 'Ch 5: Modbus Analysis',          title: 'Analyzing Modbus on the Wire',      path: '/modbus',    icon: 'Network',    prev: 'dissectors', next: 'dnp3'       },
+  { id: 'dnp3',        label: 'Ch 6: DNP3 Analysis',            title: 'Analyzing DNP3 Traffic',            path: '/dnp3',      icon: 'Zap',        prev: 'modbus',     next: 'opcua'      },
+  { id: 'opcua',       label: 'Ch 7: OPC UA Analysis',          title: 'Analyzing OPC UA Sessions',         path: '/opcua',     icon: 'Globe',      prev: 'dnp3',       next: 'security'   },
+  { id: 'security',    label: 'Ch 8: Security Analysis',        title: 'Security Analysis & Anomaly Detection', path: '/security', icon: 'Shield',  prev: 'opcua',      next: 'advanced'   },
+  { id: 'advanced',    label: 'Ch 9: Advanced Techniques',      title: 'Advanced Wireshark Techniques',     path: '/advanced',  icon: 'Terminal',   prev: 'security',   next: 'lab'        },
+  { id: 'lab',         label: 'Ch 10: Protocol Lab',            title: 'Protocol Analysis Lab',             path: '/lab',       icon: 'FlaskConical', prev: 'advanced', next: null         },
+  { id: 'flashcards',  label: 'Flashcards',                     title: 'Flashcards',                        path: '/flashcards',icon: 'CreditCard', prev: null,         next: null         },
+]
+
+export const ANALOGIES = {
+  intro:      { text: "Wireshark is a stethoscope for your network. Doctors don't guess what's wrong with a patient — they listen. Engineers shouldn't guess what's wrong with a protocol — they capture.", author: "Every OT network analyst, eventually" },
+  capture:    { text: "Promiscuous mode is like eavesdropping at a party. You hear every conversation, not just the ones addressed to you. Your switch's span port is the party room with no doors.", author: "Network tap installation manual" },
+  filters:    { text: "A display filter without a capture filter is like a coffee shop that serves everything and then asks 'what did you want?' — it works, but you're drowning in packets you never needed.", author: "Wireshark pro tip, slide 3" },
+  dissectors: { text: "A protocol dissector is Wireshark's Rosetta Stone — it knows the byte layout of a protocol and translates raw hex into human-readable field names. Without it, you're reading hieroglyphics.", author: "Wireshark dissector plugin guide" },
+  modbus:     { text: "Modbus has no authentication, no encryption, no sequence numbers. If you capture it, you see everything. If an attacker captures it, they see everything. Wireshark makes this immediately obvious.", author: "ICS security audit, day one" },
+  dnp3:       { text: "DNP3 was designed when eavesdropping required physical access to a serial cable. In the TCP/IP world, Wireshark can capture a week of substation traffic from any compromised laptop on the network.", author: "DNP3 Secure Authentication white paper, reason for its existence" },
+  opcua:      { text: "OPC UA's security modes sound reassuring: None, Sign, SignAndEncrypt. Wireshark will show you exactly which mode your system is actually using — and most production systems that should use SignAndEncrypt are using None.", author: "OPC UA field audit, anonymous" },
+  security:   { text: "Anomaly detection in ICS isn't hard — it's just pattern recognition. A Modbus master that has polled the same 10 coils every 5 seconds for 3 years doesn't suddenly need to write to 500 holding registers at 2 AM.", author: "ICS incident response playbook" },
+  advanced:   { text: "tshark running on a Pi Zero, capturing to a ring buffer, forwarding alerts via SMS — that's a $15 network anomaly detector. Wireshark is not just a desktop tool.", author: "Field engineer, Bakersfield CA" },
+  lab:        { text: "The best Wireshark practice is your own production traffic. The second best is replaying PCAPs. The worst is never looking at the wire at all — which is what 80% of engineers do.", author: "Protocol analysis workshop, instructor note" },
+}
+
+export const FUN_FACTS = [
+  { text: "Wireshark was originally called 'Ethereal' when Gerald Combs wrote it in 1998. He renamed it in 2006 after leaving the company that owned the trademark — proof that open source naming disputes are as old as the internet.", icon: 'Info' },
+  { text: "The pcap file format (libpcap) is so universal that virtually every network tool in existence can read it — Wireshark, tcpdump, Snort, Zeek, nmap, and every major SIEM. A 20-year-old PCAP from 2005 opens perfectly in Wireshark today.", icon: 'Archive' },
+  { text: "Modbus TCP has no checksum in the TCP variant — it relies entirely on TCP for error detection. The Modbus RTU CRC is dropped. This surprises engineers who assume the TCP framing carries the same integrity guarantees as the serial version.", icon: 'AlertTriangle' },
+  { text: "A single Wireshark capture session during a real ICS incident has led to recovery times dropping from days to hours. The 2015 Ukraine power grid attack involved protocols that left clear forensic evidence in PCAPs — investigators reconstructed the entire attack sequence from network captures.", icon: 'Zap' },
+  { text: "Wireshark has 3,000+ built-in protocol dissectors. Of these, roughly 30 matter for SCADA engineers: Modbus, DNP3, OPC UA, IEC 60870-5-104, IEC 61850, EtherNet/IP, PROFINET, BACnet, ICCP, and their underlying transports.", icon: 'Layers' },
+  { text: "The 'Follow TCP Stream' feature in Wireshark was added because engineers complained they couldn't see the conversation — only individual packets. It reassembles the full byte stream of a TCP session, making protocol analysis feel like reading a transcript rather than sorting puzzle pieces.", icon: 'MessageSquare' },
+  { text: "Running Wireshark as root is a security risk. The correct approach is to use dumpcap (which ships with Wireshark) with appropriate group permissions — on Linux, add the user to the 'wireshark' group. This is documented and consistently ignored.", icon: 'Shield' },
+  { text: "The first time most engineers see a Modbus write command in Wireshark, they realize there's no authentication field in the frame. There's no 'who sent this' field either. Any device on the network can send Function Code 06 to any slave. Wireshark makes this viscerally real.", icon: 'Lock' },
+  { text: "tshark, the command-line version of Wireshark, can be embedded in scripts to monitor specific conditions and alert. A two-line bash script using tshark can detect unauthorized Modbus write commands and send a notification — no commercial SIEM required.", icon: 'Terminal' },
+  { text: "OPC UA's wire format uses a custom binary encoding (OPC UA Binary) or SOAP/XML. Wireshark's OPC UA dissector handles both. The binary version is more common in production — Wireshark identifies it by the 'OPC.TCP' magic bytes at the start of each message.", icon: 'Binary' },
+  { text: "DNP3 Secure Authentication (SAv5) was added to the protocol specifically because researchers demonstrated a man-in-the-middle attack using a laptop and Wireshark. The attack required no special hardware — just a captured session and replay.", icon: 'AlertOctagon' },
+  { text: "The 'Statistics > I/O Graph' feature in Wireshark can visualize protocol polling intervals. A perfectly regular 5-second spike in Modbus traffic is a healthy RTU scan. An irregular pattern — or a sudden burst — is a diagnostic flag worth investigating.", icon: 'BarChart2' },
+]

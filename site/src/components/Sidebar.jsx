@@ -17,6 +17,7 @@ export default function Sidebar() {
   const [open, setOpen] = useState(false)
   const [reportOpen, setReportOpen] = useState(false)
   const [session, setSession] = useState(null)
+  const [sessionLoading, setSessionLoading] = useState(true)
   const [showLogin, setShowLogin] = useState(false)
   const [loginEmail, setLoginEmail] = useState('')
   const [loginPassword, setLoginPassword] = useState('')
@@ -24,7 +25,7 @@ export default function Sidebar() {
   const [loginLoading, setLoginLoading] = useState(false)
 
   useEffect(() => {
-    supabase.auth.getSession().then(({ data }) => setSession(data.session))
+    supabase.auth.getSession().then(({ data }) => { setSession(data.session); setSessionLoading(false) })
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_, s) => setSession(s))
     return () => subscription.unsubscribe()
   }, [])
@@ -130,7 +131,7 @@ export default function Sidebar() {
           ← SCADA Hub
         </a>
 
-        {session ? (
+        {!sessionLoading && (session ? (
           <div className="flex items-center justify-between gap-2 px-1">
             <span className="text-xs truncate" style={{ color: 'rgba(14,165,233,0.5)' }}>{session.user.email}</span>
             <button onClick={() => supabase.auth.signOut()} title="Sign out" style={{ color: 'rgba(14,165,233,0.5)' }} className="hover:text-rose-400 transition flex-shrink-0">
@@ -162,7 +163,7 @@ export default function Sidebar() {
               </form>
             )}
           </>
-        )}
+        ))}
         <p className="text-center text-xs" style={{ color: 'rgba(14,165,233,0.35)' }}>
           Wireshark · IEEE 802 · May 2026
         </p>

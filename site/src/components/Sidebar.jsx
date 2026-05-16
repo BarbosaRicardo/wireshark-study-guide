@@ -172,7 +172,7 @@ export default function Sidebar() {
       <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
         <HomeItem />
         <AllGuidesItem />
-        {CHAPTERS.map((ch) => (
+        {CHAPTERS.filter(ch => ch.id !== 'home').map((ch) => (
           <NavItem key={ch.id} ch={ch} />
         ))}
       </nav>

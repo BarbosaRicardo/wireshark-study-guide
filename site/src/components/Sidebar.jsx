@@ -130,6 +130,14 @@ export default function Sidebar() {
           <LayoutGrid size={12} />
           ← SCADA Hub
         </a>
+        <button
+          onClick={() => { setOpen(false); setReportOpen(true) }}
+          className="flex items-center justify-center gap-2 w-full px-3 py-2 rounded-xl text-xs font-semibold transition-all"
+          style={{ background: 'rgba(14,165,233,0.07)', border: '1px solid rgba(14,165,233,0.18)', color: 'rgba(14,165,233,0.7)' }}
+        >
+          <BarChart2 size={12} />
+          Quiz Results
+        </button>
 
         {!sessionLoading && (session ? (
           <div className="flex items-center justify-between gap-2 px-1">

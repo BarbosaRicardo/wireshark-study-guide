@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import {
   Menu, X, ScanSearch, BarChart2, Home,
   Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard, LayoutGrid, LogIn, LogOut
-, FileText } from 'lucide-react'
+, FileText, ChevronDown, Code2, Sliders, Server, LayoutDashboard} from 'lucide-react'
 import { CHAPTERS } from '../data/chapters'
 import { useProgress } from '../hooks/useProgress'
 import { supabase } from '../lib/supabase'
@@ -23,6 +23,7 @@ export default function Sidebar() {
   const [loginPassword, setLoginPassword] = useState('')
   const [loginError, setLoginError] = useState('')
   const [loginLoading, setLoginLoading] = useState(false)
+  const [showGuides, setShowGuides] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => { setSession(data.session); setSessionLoading(false) })
@@ -69,6 +70,51 @@ export default function Sidebar() {
       </NavLink>
     )
   }
+  const AllGuidesItem = () => {
+    const GUIDE_LIST = [
+      { name: 'Modbus', url: 'https://modbus-study-guide.vercel.app/', color: '#60a5fa', Icon: Network },
+      { name: 'OPC UA', url: 'https://opcua-study-guide.vercel.app/', color: '#a78bfa', Icon: Globe },
+      { name: 'DNP3', url: 'https://dnp3-study-guide.vercel.app/', color: '#fbbf24', Icon: Zap },
+      { name: 'IEC 61131-3', url: 'https://iec61131-study-guide.vercel.app/', color: '#2dd4bf', Icon: Code2 },
+      { name: 'PID Controllers', url: 'https://pid-study-guide.vercel.app/', color: '#4ade80', Icon: Sliders },
+      { name: 'SEL RTAC', url: 'https://rtac-study-guide.vercel.app/', color: '#818cf8', Icon: Server },
+      { name: 'Ignition SCADA', url: 'https://ignition-study-guide.vercel.app/', color: '#fb923c', Icon: LayoutDashboard },
+      { name: 'Wireshark', url: 'https://wireshark-study-guide.vercel.app/', color: '#38bdf8', Icon: ScanSearch },
+    ]
+    return (
+      <div>
+        <button
+          onClick={() => setShowGuides(g => !g)}
+          className="chapter-nav-item w-full"
+        >
+          <LayoutGrid size={15} className="flex-shrink-0 opacity-70" />
+          <span className="flex-1 text-left">All Courses</span>
+          <ChevronDown size={13} className="flex-shrink-0 opacity-50 transition-transform" style={{ transform: showGuides ? 'rotate(180deg)' : 'rotate(0deg)' }} />
+        </button>
+        {showGuides && (
+          <div className="ml-2 mt-0.5 space-y-0.5">
+            {GUIDE_LIST.map((g) => (
+              <a
+                key={g.name}
+                href={g.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-colors"
+                style={{ background: 'rgba(255,255,255,0.03)' }}
+              >
+                <div className="w-5 h-5 rounded flex items-center justify-center flex-shrink-0" style={{ background: g.color + '22' }}>
+                  <g.Icon size={11} style={{ color: g.color }} />
+                </div>
+                <span className="truncate">{g.name}</span>
+              </a>
+            ))}
+          </div>
+        )}
+      </div>
+    )
+  }
+
+
 
   const SidebarContent = () => (
     <div className="flex flex-col h-full">
@@ -106,7 +152,11 @@ export default function Sidebar() {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
-        {CHAPTERS.map((ch) => (
+        {CHAPTERS.slice(0, 1).map((ch) => (
+          <NavItem key={ch.id} ch={ch} />
+        ))}
+        <AllGuidesItem />
+        {CHAPTERS.slice(1).map((ch) => (
           <NavItem key={ch.id} ch={ch} />
         ))}
       </nav>
@@ -149,39 +199,6 @@ export default function Sidebar() {
           Quiz Results
         </button>
 
-        {!sessionLoading && (session ? (
-          <div className="flex items-center justify-between gap-2 px-1">
-            <span className="text-xs truncate" style={{ color: 'rgba(14,165,233,0.5)' }}>{session.user.email}</span>
-            <button onClick={() => supabase.auth.signOut()} title="Sign out" style={{ color: 'rgba(14,165,233,0.5)' }} className="hover:text-rose-400 transition flex-shrink-0">
-              <LogOut size={13} />
-            </button>
-          </div>
-        ) : (
-          <>
-            <button
-              onClick={() => setShowLogin(!showLogin)}
-              className="flex items-center justify-center gap-2 w-full px-3 py-2 rounded-xl text-xs font-semibold transition-all"
-              style={{ background: 'rgba(14,165,233,0.07)', border: '1px solid rgba(14,165,233,0.18)', color: 'rgba(14,165,233,0.7)' }}
-            >
-              <LogIn size={12} />
-              {showLogin ? 'Cancel' : 'Sign In to Track Progress'}
-            </button>
-            {showLogin && (
-              <form onSubmit={handleLogin} className="flex flex-col gap-1.5">
-                {loginError && <p className="text-xs text-rose-400">{loginError}</p>}
-                <input type="text" placeholder="username or email" value={loginEmail} onChange={e => setLoginEmail(e.target.value)}
-                  className="bg-slate-800/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-white/20" />
-                <input type="password" placeholder="password" value={loginPassword} onChange={e => setLoginPassword(e.target.value)}
-                  className="bg-slate-800/60 border border-white/10 rounded-lg px-3 py-1.5 text-xs text-slate-200 placeholder-slate-500 focus:outline-none focus:border-white/20" />
-                <button type="submit" disabled={loginLoading}
-                  className="font-bold rounded-lg px-3 py-1.5 text-xs transition text-white disabled:opacity-50"
-                  style={{ background: 'linear-gradient(135deg,#0284c7,#0ea5e9)' }}>
-                  {loginLoading ? 'Signing in…' : 'Sign In'}
-                </button>
-              </form>
-            )}
-          </>
-        ))}
         <p className="text-center text-xs" style={{ color: 'rgba(14,165,233,0.35)' }}>
           Wireshark · IEEE 802 · May 2026
         </p>

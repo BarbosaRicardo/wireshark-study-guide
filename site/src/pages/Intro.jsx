@@ -4,6 +4,7 @@ import Callout from '../components/Callout'
 import FunFact from '../components/FunFact'
 import GifCard from '../components/GifCard'
 import QuizLevels from '../components/QuizLevels'
+import TrainingPanel from '../components/TrainingPanel'
 import { ANALOGIES } from '../data/chapters'
 
 export default function Intro() {
@@ -100,6 +101,7 @@ export default function Intro() {
       <FunFact index={0} />
 
       <QuizLevels chapterId="intro" />
+      <TrainingPanel course="wireshark" />
     </ChapterLayout>
   )
 }

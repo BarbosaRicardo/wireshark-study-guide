@@ -70,16 +70,34 @@ export default function Sidebar() {
       </NavLink>
     )
   }
+  const HomeItem = () => (
+    <NavLink
+      to="/"
+      end
+      onClick={() => setOpen(false)}
+      className={({ isActive }) => `chapter-nav-item ${isActive ? 'active' : ''}`}
+    >
+      <Home size={15} className="flex-shrink-0 opacity-70" />
+      <span className="flex-1 truncate">Home</span>
+    </NavLink>
+  )
   const AllGuidesItem = () => {
+    const isGH = import.meta.env.BASE_URL !== '/'
+    const guideUrl = (slug) => isGH
+      ? `https://barbosaricardo.github.io/${slug}-study-guide/`
+      : `https://${slug}-study-guide.vercel.app/`
+    const hubUrl = isGH
+      ? 'https://barbosaricardo.github.io/scada-hub/'
+      : 'https://scada-hub.vercel.app'
     const GUIDE_LIST = [
-      { name: 'Modbus', url: 'https://modbus-study-guide.vercel.app/', color: '#60a5fa', Icon: Network },
-      { name: 'OPC UA', url: 'https://opcua-study-guide.vercel.app/', color: '#a78bfa', Icon: Globe },
-      { name: 'DNP3', url: 'https://dnp3-study-guide.vercel.app/', color: '#fbbf24', Icon: Zap },
-      { name: 'IEC 61131-3', url: 'https://iec61131-study-guide.vercel.app/', color: '#2dd4bf', Icon: Code2 },
-      { name: 'PID Controllers', url: 'https://pid-study-guide.vercel.app/', color: '#4ade80', Icon: Sliders },
-      { name: 'SEL RTAC', url: 'https://rtac-study-guide.vercel.app/', color: '#818cf8', Icon: Server },
-      { name: 'Ignition SCADA', url: 'https://ignition-study-guide.vercel.app/', color: '#fb923c', Icon: LayoutDashboard },
-      { name: 'Wireshark', url: 'https://wireshark-study-guide.vercel.app/', color: '#38bdf8', Icon: ScanSearch },
+      { name: 'Modbus', slug: 'modbus', color: '#60a5fa', Icon: Network },
+      { name: 'OPC UA', slug: 'opcua', color: '#a78bfa', Icon: Globe },
+      { name: 'DNP3', slug: 'dnp3', color: '#fbbf24', Icon: Zap },
+      { name: 'IEC 61131-3', slug: 'iec61131', color: '#2dd4bf', Icon: Code2 },
+      { name: 'PID Controllers', slug: 'pid', color: '#4ade80', Icon: Sliders },
+      { name: 'SEL RTAC', slug: 'rtac', color: '#818cf8', Icon: Server },
+      { name: 'Ignition SCADA', slug: 'ignition', color: '#fb923c', Icon: LayoutDashboard },
+      { name: 'Wireshark', slug: 'wireshark', color: '#38bdf8', Icon: ScanSearch },
     ]
     return (
       <div>
@@ -96,7 +114,7 @@ export default function Sidebar() {
             {GUIDE_LIST.map((g) => (
               <a
                 key={g.name}
-                href={g.url}
+                href={guideUrl(g.slug)}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex items-center gap-2.5 px-3 py-2 rounded-lg text-xs font-medium text-slate-400 hover:text-slate-200 transition-colors"
@@ -152,11 +170,9 @@ export default function Sidebar() {
 
       {/* Nav */}
       <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
-        {CHAPTERS.slice(0, 1).map((ch) => (
-          <NavItem key={ch.id} ch={ch} />
-        ))}
+        <HomeItem />
         <AllGuidesItem />
-        {CHAPTERS.slice(1).map((ch) => (
+        {CHAPTERS.map((ch) => (
           <NavItem key={ch.id} ch={ch} />
         ))}
       </nav>
@@ -183,7 +199,7 @@ export default function Sidebar() {
           Course Syllabus
         </a>
         <a
-          href="https://scada-hub.vercel.app"
+          href={import.meta.env.BASE_URL !== '/' ? 'https://barbosaricardo.github.io/scada-hub/' : 'https://scada-hub.vercel.app'}
           className="flex items-center justify-center gap-2 w-full px-3 py-2 rounded-xl text-xs font-semibold transition-all"
           style={{ background: 'rgba(14,165,233,0.07)', border: '1px solid rgba(14,165,233,0.18)', color: 'rgba(14,165,233,0.7)' }}
         >

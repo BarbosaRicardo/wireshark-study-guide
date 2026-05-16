@@ -1,13 +1,13 @@
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 
-const isVercel = process.env.VERCEL === '1'
+const isGitHubPages = process.env.GITHUB_PAGES === '1'
 
 export default defineConfig({
   plugins: [react()],
-  base: '/',
+  base: isGitHubPages ? '/wireshark-study-guide/' : '/',
   build: {
-    outDir: isVercel ? 'dist' : '../docs',
+    outDir: '../docs',
     emptyOutDir: true,
   },
 })

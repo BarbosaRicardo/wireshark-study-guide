@@ -106,8 +106,10 @@ export default function Modbus() {
         Line 3 is the anomaly: an unknown host (10.0.0.99) sent a Write Multiple Registers command to a different address range, 15 milliseconds after the normal poll. That's not baseline. That's worth investigating.
       </p>
 
-      <GifCard gifKey="wire" caption="No encryption. No authentication. Wireshark sees all." side="right"
-      />
+      <div className="flex items-start gap-6 my-6">
+        <p className="flex-1 text-sm text-slate-400 leading-relaxed">Modbus TCP carries zero authentication and zero encryption. Every read and write is visible in plaintext on the wire, including coil states, register values, and function codes. Filter on <code className="text-xs bg-white/10 px-1 rounded">tcp.port == 502</code> and Wireshark dissects the full PDU automatically — slave address, function code, starting address, quantity, and data payload. This makes Wireshark indispensable for debugging register maps, verifying addresses, and confirming that polling software is actually sending what you think it is.</p>
+        <GifCard gifKey="wire" caption="No encryption. No authentication. Wireshark sees all." />
+      </div>
 
       <h2 className="text-2xl font-bold text-white mt-8 mb-3">Modbus Exception Codes</h2>
 

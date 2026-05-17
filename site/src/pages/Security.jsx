@@ -76,8 +76,10 @@ arp.opcode == 2 and arp.src.proto_ipv4 != arp.dst.proto_ipv4`}</pre>
         ARP poisoning in an OT network is particularly dangerous because unauthenticated protocols like Modbus trust the IP-level identity of the sender. If an attacker poisons ARP to redirect Modbus traffic through their machine, they can read all control data and potentially inject malicious commands. Wireshark on a SPAN port will catch the poisoning event in real time — the anomalous ARP reply appears before any traffic redirection occurs.
       </Callout>
 
-      <GifCard gifKey="hacker" caption="ARP poisoning: redirecting traffic before it knows what hit it." side="right"
-      />
+      <div className="flex items-start gap-6 my-6">
+        <p className="flex-1 text-sm text-slate-400 leading-relaxed">ARP poisoning works by sending unsolicited ARP replies that associate the attacker's MAC address with a legitimate IP. The victim's ARP cache gets corrupted — traffic intended for the PLC gets routed to the attacker first. Wireshark detects this as duplicate ARP replies for the same IP from different MACs. In an OT network, a single ARP poisoning attack can intercept all Modbus TCP traffic between an HMI and a PLC without either side knowing. Static ARP entries on critical devices prevent this.</p>
+        <GifCard gifKey="hacker" caption="ARP poisoning: redirecting traffic before it knows what hit it." />
+      </div>
 
       <h2 className="text-2xl font-bold text-white mt-8 mb-3">MITRE ATT&CK for ICS — Network Techniques</h2>
 

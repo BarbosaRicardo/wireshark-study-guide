@@ -126,8 +126,10 @@ dumpcap -i eth0 \\
   -b files:50 \\
   -f "port 502 or port 20000"`}</pre>
 
-      <GifCard gifKey="wire" caption="Your OT network, 24/7, captured." side="right"
-      />
+      <div className="flex items-start gap-6 my-6">
+        <p className="flex-1 text-sm text-slate-400 leading-relaxed">Continuous capture with a rolling ring buffer means that when an incident occurs, you have traffic from hours before it — not just what happened after you noticed the problem. Configure Wireshark or tcpdump to write rotating 1-hour pcap files capped at 500MB each. SPAN ports on managed switches deliver a copy of all traffic to a capture interface without affecting the primary data path. For RS-485 serial protocols, a hardware serial tap passes the signal through while feeding a copy to a USB serial adapter connected to your capture machine.</p>
+        <GifCard gifKey="wire" caption="Your OT network, 24/7, captured." />
+      </div>
 
       <h2 className="text-2xl font-bold text-white mt-8 mb-3">Remote Capture via SSH</h2>
 

@@ -3,7 +3,7 @@ import { NavLink } from 'react-router-dom'
 import {
   Menu, X, ScanSearch, BarChart2, Home,
   Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard, LayoutGrid, LogIn, LogOut
-, FileText, ChevronDown, Code2, Sliders, Server, LayoutDashboard, GraduationCap} from 'lucide-react'
+, FileText, ChevronDown, Code2, Sliders, Server, LayoutDashboard, GraduationCap, CheckCircle2 } from 'lucide-react'
 import { CHAPTERS } from '../data/chapters'
 import { useProgress } from '../hooks/useProgress'
 import { supabase } from '../lib/supabase'
@@ -64,10 +64,16 @@ export default function Sidebar() {
       >
         <Icon size={15} className="flex-shrink-0 opacity-70" />
         <span className="flex-1 truncate">{ch.label}</span>
-        <div className="flex gap-0.5 flex-shrink-0">
-          <div className={`w-1.5 h-1.5 rounded-full transition-all ${status.level1Passed ? 'bg-emerald-400 shadow-glow-green' : status.visited ? 'bg-amber-400' : 'bg-white/10'}`} />
-          <div className={`w-1.5 h-1.5 rounded-full transition-all ${status.level2Passed ? 'bg-amber-400' : 'bg-white/10'}`} />
-          <div className={`w-1.5 h-1.5 rounded-full transition-all ${status.level3Passed ? 'bg-rose-400' : 'bg-white/10'}`} />
+        <div className="flex gap-0.5 flex-shrink-0 items-center">
+          {status.completed ? (
+            <CheckCircle2 size={13} className="text-emerald-400" />
+          ) : (
+            <>
+              <div className={`w-1.5 h-1.5 rounded-full transition-all ${status.level1Passed ? 'bg-emerald-400 shadow-glow-green' : status.visited ? 'bg-amber-400' : 'bg-white/10'}`} />
+              <div className={`w-1.5 h-1.5 rounded-full transition-all ${status.level2Passed ? 'bg-amber-400' : 'bg-white/10'}`} />
+              <div className={`w-1.5 h-1.5 rounded-full transition-all ${status.level3Passed ? 'bg-rose-400' : 'bg-white/10'}`} />
+            </>
+          )}
         </div>
       </NavLink>
     )
@@ -142,10 +148,12 @@ export default function Sidebar() {
       {/* Logo */}
       <div className="p-5" style={{ borderBottom: '1px solid rgba(255,255,255,0.05)' }}>
         <div className="flex items-center gap-3">
-          <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+          <button
+            onClick={() => setOpen(false)}
+            className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 lg:cursor-default"
             style={{ background: 'linear-gradient(135deg, #0284c7, #0ea5e9)', boxShadow: '0 0 20px rgba(14,165,233,0.45)' }}>
             <ScanSearch size={18} className="text-white" />
-          </div>
+          </button>
           <div>
             <div className="font-black text-white text-sm tracking-wide leading-tight">Wireshark</div>
             <div className="text-xs font-medium" style={{ color: '#38bdf8' }}>Study Guide</div>

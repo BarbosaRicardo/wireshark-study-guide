@@ -54,6 +54,7 @@ export function useProgress() {
       level1Passed: !!p.level1Passed || !!p.quizPassed,
       level2Passed: !!p.level2Passed,
       level3Passed: !!p.level3Passed,
+      level4Passed: !!$p.level4Passed,
     }
   }
 

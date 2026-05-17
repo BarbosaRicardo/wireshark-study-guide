@@ -8,7 +8,7 @@ function buildGiphyUrl(id) {
   return `https://media1.giphy.com/media/${id}/giphy.gif`
 }
 
-export default function GifCard({ gifKey, caption, side = 'right', className = '' }) {
+export default function GifCard({ gifKey, caption, side = 'right', className = '', tooltip = null }) {
   const [url, setUrl] = useState(null)
   const [hidden, setHidden] = useState(false)
   const id = GIFS[gifKey]
@@ -36,6 +36,7 @@ export default function GifCard({ gifKey, caption, side = 'right', className = '
     <div className={`flex ${side === 'left' ? 'justify-start' : 'justify-end'} my-4 ${className}`}>
       <div className="max-w-xs text-center">
         <div
+          className="group"
           style={{
             width: 200,
             height: 150,
@@ -54,6 +55,14 @@ export default function GifCard({ gifKey, caption, side = 'right', className = '
             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
             onError={() => setHidden(true)}
           />
+          {tooltip && (
+            <div
+              className="absolute inset-0 flex items-center justify-center p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
+              style={{ background: 'rgba(0,0,0,0.85)', borderRadius: '12px' }}
+            >
+              <p className="text-xs text-slate-200 text-center leading-relaxed">{tooltip}</p>
+            </div>
+          )}
         </div>
         {caption && (
           <p className="text-xs text-slate-500 mt-1.5 italic">{caption}</p>

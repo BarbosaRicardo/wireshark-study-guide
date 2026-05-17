@@ -10,5 +10,6 @@ export const GIFS = {
   shark:     'tenor:3556998',              // shark attack surprise — Wireshark logo energy
   tryAgain:  'tenor:6996012332740994750',  // try again later — wrong display filter
   warning:   'tenor:17652793',             // three stooges facepalm — SecurityMode: None detected
+  courseHero: 'tenor:3505524',             // hackerman — we're in
   wire:      'tenor:5436413',              // this is fine — unencrypted Modbus on the wire
 }

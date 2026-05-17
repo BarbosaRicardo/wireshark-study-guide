@@ -62,7 +62,7 @@ export default function Intro() {
         For OT incident response, prefer <code>pcapng</code> when capturing on modern systems. The interface metadata and precise timestamps matter when you're trying to reconstruct the sequence of events during an anomaly. For compatibility with older tools or sending to a vendor, export as <code>pcap</code>.
       </p>
 
-      <GifCard gifKey="inspect" caption="Reading a raw pcap for the first time." side="right" />
+      <GifCard gifKey="courseHero" caption="Finding the one bad packet in 40,000. You love to see it." side="right" tooltip="Wireshark freezes time on a network conversation so you can read every byte. One malformed frame, one cleartext password, one SessionNotActivated buried in 40,000 packets — it's all there if you know what to look for." />
 
       <h2 className="text-2xl font-bold text-white mt-8 mb-3">Wireshark in OT/SCADA Environments</h2>
 

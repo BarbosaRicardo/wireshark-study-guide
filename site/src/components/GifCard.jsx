@@ -1,36 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { GIFS } from '../data/gifs'
 
-const TENOR_KEY = 'LIVDSRZULELA'
+export default function GifCard({ gifKey, gifId, caption, side = 'right', className = '', tooltip = null }) {
+  const [error, setError] = useState(false)
+  const id = gifId || GIFS[gifKey]
 
-function buildGiphyUrl(id) {
-  if (id.startsWith('http')) return id
-  return `https://media1.giphy.com/media/${id}/giphy.gif`
-}
+  if (!id || error) return null
 
-export default function GifCard({ gifKey, caption, side = 'right', className = '', tooltip = null }) {
-  const [url, setUrl] = useState(null)
-  const [hidden, setHidden] = useState(false)
-  const id = GIFS[gifKey]
-
-  useEffect(() => {
-    if (!id) { setHidden(true); return }
-    if (id.startsWith('tenor:')) {
-      const tenorId = id.slice(6)
-      fetch(`https://tenor.googleapis.com/v2/posts?ids=${tenorId}&key=${TENOR_KEY}&media_filter=gif`)
-        .then(r => r.json())
-        .then(data => {
-          const gifUrl = data.results?.[0]?.media_formats?.gif?.url
-          if (gifUrl) setUrl(gifUrl)
-          else setHidden(true)
-        })
-        .catch(() => setHidden(true))
-    } else {
-      setUrl(buildGiphyUrl(id))
-    }
-  }, [id])
-
-  if (!id || hidden || !url) return null
+  const url = `https://media1.giphy.com/media/${id}/giphy.gif`
 
   return (
     <div className={`flex ${side === 'left' ? 'justify-start' : 'justify-end'} my-4 ${className}`}>
@@ -43,8 +20,8 @@ export default function GifCard({ gifKey, caption, side = 'right', className = '
             position: 'relative',
             overflow: 'hidden',
             borderRadius: '12px',
-            border: '1px solid rgba(14,165,233,0.2)',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(14,165,233,0.1)',
+            border: '1px solid rgba(59,130,246,0.2)',
+            boxShadow: '0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(59,130,246,0.1)',
           }}
         >
           <img
@@ -53,7 +30,7 @@ export default function GifCard({ gifKey, caption, side = 'right', className = '
             width="200"
             height="150"
             style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-            onError={() => setHidden(true)}
+            onError={() => setError(true)}
           />
           {tooltip && (
             <div

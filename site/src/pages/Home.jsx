@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
 import { BookOpen, Zap, Award, Clock, ArrowRight, ScanSearch, Wifi, Shield, Network } from 'lucide-react'
@@ -14,8 +14,16 @@ const STATS = [
   { icon: Award,      label: 'Cert Ready',  sub: 'WCA-101 & GICSP' },
 ]
 
+const HERO_OPTIONS = [
+  { id: 'YQitE4YNQNahy',        caption: `I see all packets. I know what you sent.`,                       tooltip: `Wireshark decodes 3000+ protocols out of the box — DNP3, Modbus TCP, IEC 60870-5, PROFINET, EtherNet/IP, and thousands more. If it crosses a wire and you can capture it, Wireshark can read it. Including the cleartext password you were hoping nobody would notice.` },
+  { id: 'LmNwrBhejkK9EFP504',   caption: `Writing a display filter that actually works on the first try.`, tooltip: `Wireshark display filters use a specific syntax: field.name == value, field.name contains "string". The autocomplete helps. The documentation helps more. Writing filters under deadline pressure while an operator watches is how you learn them permanently.` },
+  { id: '3oEjHFOscgNwdSRRDy',   caption: `Follow TCP Stream: 200 packets become one conversation.`,        tooltip: `Wireshark Follow TCP Stream reassembles a complete exchange between two endpoints in order, showing exactly what each side sent and received. What looked like 200 random packets suddenly tells a coherent story — and usually the problem is obvious once you read it that way.` },
+  { id: 'xT0xeJpnrWC4XWblEk',   caption: `TLS encrypted. Your packet analysis stops here without the keys.`, tooltip: `Wireshark captures TLS handshakes but can't decrypt sessions without the session keys or the server private key. Modern TLS with ECDHE forward secrecy means even the private key isn't enough after the handshake ends. Capture the SSLKEYLOGFILE during the session or accept the ciphertext.` },
+  { id: 'feqkVgjJpYtjy',        caption: `IO Graph: retransmits spike at 14:32. Exactly when the alarm fired.`, tooltip: `Wireshark IO Graph plots packet metrics over time — counts, bytes, specific field values. Overlaying a TCP retransmit graph with an alarm timeline is how you prove the network caused the incident, not the application. Data beats guesswork in every postmortem.` },
+]
 export default function Home() {
   const { overallProgress, reset } = useProgress()
+  const [heroIdx] = useState(() => Math.floor(Math.random() * HERO_OPTIONS.length))
   const prog = overallProgress()
 
   const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } }
@@ -44,7 +52,7 @@ export default function Home() {
             </div>
           </div>
           <div className="flex-shrink-0">
-            <GifCard gifKey="courseHero" caption="Finding the one bad packet in 40,000. You love to see it." side="right" tooltip="Wireshark freezes time on a network conversation so you can read every byte. One malformed frame, one cleartext password, one SessionNotActivated buried in 40,000 packets — it's all there if you know what to look for." />
+            <GifCard gifId={HERO_OPTIONS[heroIdx].id} caption={HERO_OPTIONS[heroIdx].caption} tooltip={HERO_OPTIONS[heroIdx].tooltip} side="right" />
           </div>
         </div>
       </motion.div>

@@ -50,11 +50,12 @@ export function useProgress() {
     const p = progress[chapterId] || {}
     return {
       visited:      !!p.visited,
+      completed:    !!p.completed,
       quizPassed:   !!p.quizPassed,
       level1Passed: !!p.level1Passed || !!p.quizPassed,
       level2Passed: !!p.level2Passed,
       level3Passed: !!p.level3Passed,
-      level4Passed: !!$p.level4Passed,
+      level4Passed: !!p.level4Passed,
     }
   }
 

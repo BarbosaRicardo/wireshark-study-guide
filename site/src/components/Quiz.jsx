@@ -191,6 +191,16 @@ function shuffleOptions(q, rng) {
   }
 }
 
+function normalizeQuestion(q) {
+  const question = q.question || q.q || ''
+  let n = { ...q, question }
+  if ((n.type === 'mcq' || n.type === 'scenario') && typeof n.answer === 'string') {
+    const idx = (n.options || []).indexOf(n.answer)
+    n = { ...n, answer: idx }
+  }
+  return n
+}
+
 function maybeFlip(q, rng, attempt) {
   if (q.type !== 'mcq' || q.options.length < 3) return q
   const threshold = attempt >= 3 ? 0.5 : attempt >= 2 ? 0.3 : 0
@@ -207,9 +217,10 @@ function maybeFlip(q, rng, attempt) {
 }
 
 function prepareQuestions(questions, chapterId, level, attempt) {
+  const normalized = questions.map(normalizeQuestion)
   const seed = (attempt + 1) * 31337 + chapterId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + level * 997
   const rng = seededRng(seed)
-  return shuffle(questions, rng).map(q => maybeFlip(shuffleOptions(q, seededRng(seed + q.id.charCodeAt(0))), seededRng(seed + 1), attempt))
+  return shuffle(normalized, rng).map(q => maybeFlip(shuffleOptions(q, seededRng(seed + q.id.charCodeAt(0))), seededRng(seed + 1), attempt))
 }
 
 export default function Quiz({ chapterId, questions, level = 1 }) {

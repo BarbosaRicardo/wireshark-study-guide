@@ -127,7 +127,6 @@ dumpcap -i eth0 \\
   -f "port 502 or port 20000"`}</pre>
 
       <GifCard gifKey="wire" caption="Your OT network, 24/7, captured." side="right"
-        body="Wireshark captures every frame that crosses the interface — broadcast, multicast, and unicast traffic alike. In an OT environment, a single 60-second capture during normal operations typically reveals Modbus polling intervals, DNP3 unsolicited response timing, OPC UA subscription publish rates, and any broadcast storms or retransmissions. The baseline capture, taken when everything is working correctly, is the comparison point for every future troubleshooting session."
       />
 
       <h2 className="text-2xl font-bold text-white mt-8 mb-3">Remote Capture via SSH</h2>

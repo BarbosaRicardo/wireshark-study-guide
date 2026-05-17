@@ -77,7 +77,6 @@ arp.opcode == 2 and arp.src.proto_ipv4 != arp.dst.proto_ipv4`}</pre>
       </Callout>
 
       <GifCard gifKey="hacker" caption="ARP poisoning: redirecting traffic before it knows what hit it." side="right"
-        body="ARP poisoning (ARP spoofing) inserts a malicious host into traffic flows by sending gratuitous ARP replies that associate the attacker's MAC address with a legitimate IP. Subsequent traffic to the victim IP is delivered to the attacker, who can forward it (man-in-the-middle) or drop it (denial of service). Wireshark detects ARP poisoning by identifying duplicate ARP replies for the same IP from different MACs — filter on arp.duplicate-address-detected or look for multiple ARP replies in a short window."
       />
 
       <h2 className="text-2xl font-bold text-white mt-8 mb-3">MITRE ATT&CK for ICS — Network Techniques</h2>

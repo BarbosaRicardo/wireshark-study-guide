@@ -107,7 +107,6 @@ export default function Modbus() {
       </p>
 
       <GifCard gifKey="wire" caption="No encryption. No authentication. Wireshark sees all." side="right"
-        body="Modbus TCP carries no authentication and no encryption. A Wireshark capture of a Modbus TCP session shows function codes, register addresses, and data values in plaintext — including writes to control outputs. Filter on tcp.port == 502 to isolate all Modbus traffic. The fc == 3 display filter shows every Read Holding Registers exchange; fc == 16 shows every write. On a production network, this is exactly what an attacker with a tap would see."
       />
 
       <h2 className="text-2xl font-bold text-white mt-8 mb-3">Modbus Exception Codes</h2>

@@ -12,32 +12,39 @@ export default function GifCard({ gifKey, gifId, caption, side = 'right', classN
   return (
     <div className={`flex ${side === 'left' ? 'justify-start' : 'justify-end'} my-4 ${className}`}>
       <div className="max-w-xs text-center">
-        <div
-          className="group"
-          style={{
-            width: 200,
-            height: 150,
-            position: 'relative',
+        {/* group wrapper: no overflow:hidden so tooltip isn't clipped */}
+        <div className="group" style={{ position: 'relative', width: 200, height: 150 }}>
+          {/* image gets its own overflow:hidden for border-radius */}
+          <div style={{
+            position: 'absolute', inset: 0,
             overflow: 'hidden',
             borderRadius: '12px',
             border: '1px solid rgba(59,130,246,0.2)',
-            boxShadow: '0 8px 24px rgba(0,0,0,0.5), 0 0 0 1px rgba(59,130,246,0.1)',
-          }}
-        >
-          <img
-            src={url}
-            alt={caption || gifKey}
-            width="200"
-            height="150"
-            style={{ objectFit: 'cover', width: '100%', height: '100%' }}
-            onError={() => setError(true)}
-          />
+            boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+          }}>
+            <img
+              src={url}
+              alt={caption || gifKey}
+              width="200"
+              height="150"
+              style={{ objectFit: 'cover', width: '100%', height: '100%' }}
+              onError={() => setError(true)}
+            />
+          </div>
+          {/* tooltip: scrollable, not clipped by parent */}
           {tooltip && (
             <div
-              className="absolute inset-0 flex items-center justify-center p-3 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
-              style={{ background: 'rgba(0,0,0,0.85)', borderRadius: '12px' }}
+              className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300 overflow-y-auto"
+              style={{
+                background: 'rgba(0,0,0,0.88)',
+                borderRadius: '12px',
+                zIndex: 10,
+                padding: '10px 12px',
+                display: 'flex',
+                alignItems: 'center',
+              }}
             >
-              <p className="text-xs text-slate-200 text-center leading-relaxed">{tooltip}</p>
+              <p className="text-xs text-slate-200 text-center leading-relaxed w-full">{tooltip}</p>
             </div>
           )}
         </div>

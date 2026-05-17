@@ -64,9 +64,9 @@ export default function Dnp3() {
               <code className="w-10 flex-shrink-0" style={{ color: '#7dd3fc' }}>{fc}</code>
               <span className="font-medium text-white flex-shrink-0 w-48">{name}</span>
               <span className={`text-xs px-2 py-0.5 rounded font-bold flex-shrink-0 w-16 text-center ${
-                risk === 'critical' ? 'bg-red-500/20 text-red-400' :
-                risk === 'write' ? 'bg-orange-500/15 text-orange-400' :
-                risk === 'monitor' ? 'bg-purple-500/100/15 text-purple-400' :
+                risk === 'critical' ? 'bg-red-500/100/20 text-red-400' :
+                risk === 'write' ? 'bg-orange-500/100/15 text-orange-400' :
+                risk === 'monitor' ? 'bg-purple-500/100/100/15 text-purple-400' :
                 'bg-slate-700/50 text-slate-400'
               }`}>{risk}</span>
               <span className="text-slate-500 text-xs">{desc}</span>

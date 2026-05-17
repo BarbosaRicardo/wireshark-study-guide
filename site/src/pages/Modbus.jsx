@@ -69,7 +69,7 @@ export default function Modbus() {
             <div key={fc} className="px-5 py-2.5 flex items-center gap-4">
               <code className="w-8 flex-shrink-0" style={{ color: '#7dd3fc' }}>{hex}</code>
               <span className="font-medium text-white flex-shrink-0 w-52">{name}</span>
-              <span className={`text-xs px-2 py-0.5 rounded font-bold flex-shrink-0 ${risk === 'write' ? 'bg-red-500/15 text-red-400' : 'bg-slate-700/50 text-slate-400'}`}>{risk}</span>
+              <span className={`text-xs px-2 py-0.5 rounded font-bold flex-shrink-0 ${risk === 'write' ? 'bg-red-500/100/15 text-red-400' : 'bg-slate-700/50 text-slate-400'}`}>{risk}</span>
               <span className="text-slate-500 text-xs">{desc}</span>
             </div>
           ))}
@@ -106,7 +106,9 @@ export default function Modbus() {
         Line 3 is the anomaly: an unknown host (10.0.0.99) sent a Write Multiple Registers command to a different address range, 15 milliseconds after the normal poll. That's not baseline. That's worth investigating.
       </p>
 
-      <GifCard gifKey="wire" caption="No encryption. No authentication. Wireshark sees all." side="right" />
+      <GifCard gifKey="wire" caption="No encryption. No authentication. Wireshark sees all." side="right"
+        body="Modbus TCP carries no authentication and no encryption. A Wireshark capture of a Modbus TCP session shows function codes, register addresses, and data values in plaintext — including writes to control outputs. Filter on tcp.port == 502 to isolate all Modbus traffic. The fc == 3 display filter shows every Read Holding Registers exchange; fc == 16 shows every write. On a production network, this is exactly what an attacker with a tap would see."
+      />
 
       <h2 className="text-2xl font-bold text-white mt-8 mb-3">Modbus Exception Codes</h2>
 

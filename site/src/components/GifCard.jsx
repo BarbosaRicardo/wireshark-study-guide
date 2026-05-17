@@ -11,7 +11,7 @@ export default function GifCard({ gifKey, gifId, caption, side = 'right', classN
 
   return (
     <div className={`flex ${side === 'left' ? 'justify-start' : 'justify-end'} my-4 ${className}`}>
-      <div className="max-w-xs text-center">
+      <div style={{ width: 200 }} className="text-center">
         {/* group wrapper: no overflow:hidden so tooltip isn't clipped */}
         <div className="group" style={{ position: 'relative', width: 200, height: 150 }}>
           {/* image gets its own overflow:hidden for border-radius */}
@@ -40,8 +40,6 @@ export default function GifCard({ gifKey, gifId, caption, side = 'right', classN
                 borderRadius: '12px',
                 zIndex: 10,
                 padding: '10px 12px',
-                display: 'flex',
-                alignItems: 'center',
               }}
             >
               <p className="text-xs text-slate-200 text-center leading-relaxed w-full">{tooltip}</p>

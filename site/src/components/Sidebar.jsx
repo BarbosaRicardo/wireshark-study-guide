@@ -3,18 +3,19 @@ import { NavLink } from 'react-router-dom'
 import {
   Menu, X, ScanSearch, BarChart2, Home,
   Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard, LayoutGrid, LogIn, LogOut
-, FileText, ChevronDown, Code2, Sliders, Server, LayoutDashboard} from 'lucide-react'
+, FileText, ChevronDown, Code2, Sliders, Server, LayoutDashboard, GraduationCap} from 'lucide-react'
 import { CHAPTERS } from '../data/chapters'
 import { useProgress } from '../hooks/useProgress'
 import { supabase } from '../lib/supabase'
 import QuizReport from './QuizReport'
+import TrainingModal from './TrainingModal'
 
 const ICON_MAP = {
   ScanSearch, Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard,
 }
 
 export default function Sidebar() {
-  const [open, setOpen] = useState(true)
+  const [open, setOpen] = useState(false)
   const [reportOpen, setReportOpen] = useState(false)
   const [session, setSession] = useState(null)
   const [sessionLoading, setSessionLoading] = useState(true)
@@ -24,6 +25,7 @@ export default function Sidebar() {
   const [loginError, setLoginError] = useState('')
   const [loginLoading, setLoginLoading] = useState(false)
   const [showGuides, setShowGuides] = useState(false)
+  const [showTraining, setShowTraining] = useState(false)
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data }) => { setSession(data.session); setSessionLoading(false) })
@@ -245,6 +247,7 @@ export default function Sidebar() {
       </aside>
 
       {reportOpen && <QuizReport onClose={() => setReportOpen(false)} />}
+      {showTraining && <TrainingModal course="wireshark" onClose={() => setShowTraining(false)} />}
     </>
   )
 }

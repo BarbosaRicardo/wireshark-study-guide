@@ -26,10 +26,6 @@ export default function Home() {
 
       {/* Hero */}
       <motion.div variants={item} className="text-center">
-        <div className="inline-flex items-center gap-2 bg-mblue-50 text-mblue-600 text-xs font-bold uppercase tracking-widest px-4 py-2 rounded-full mb-6 border border-mblue-200">
-          <Zap size={12} />
-          SCADA Automation Engineer Training
-        </div>
         <div className="flex flex-col md:flex-row items-center justify-center gap-8">
           <div className="text-left">
             <h1 className="text-4xl md:text-5xl font-black text-slate-100 leading-tight mb-4">

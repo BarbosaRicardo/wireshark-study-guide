@@ -1,5 +1,6 @@
 export const CHAPTERS = [
-  { id: 'intro',       label: 'Ch 1: Intro to Wireshark',      title: 'Introduction to Wireshark',          path: '/',          icon: 'ScanSearch', prev: null,        next: 'capture'    },
+  { id: 'home',        label: 'Home',                             title: 'Home',                               path: '/',          icon: 'Home',       prev: null,        next: null         },
+  { id: 'intro',       label: 'Ch 1: Intro to Wireshark',      title: 'Introduction to Wireshark',          path: '/intro',     icon: 'ScanSearch', prev: null,        next: 'capture'    },
   { id: 'capture',     label: 'Ch 2: Capture Techniques',       title: 'Capture Techniques & Interfaces',    path: '/capture',   icon: 'Wifi',       prev: 'intro',      next: 'filters'    },
   { id: 'filters',     label: 'Ch 3: Display Filters',          title: 'Display & Capture Filters',         path: '/filters',   icon: 'Filter',     prev: 'capture',    next: 'dissectors' },
   { id: 'dissectors',  label: 'Ch 4: Protocol Dissectors',      title: 'Protocol Dissectors & Decode As',   path: '/dissectors',icon: 'Layers',     prev: 'filters',    next: 'modbus'     },

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Routes, Route } from 'react-router-dom'
 import Sidebar from './components/Sidebar'
+import Home from './pages/Home'
 import Intro from './pages/Intro'
 import Capture from './pages/Capture'
 import Filters from './pages/Filters'
@@ -19,7 +20,8 @@ export default function App() {
       <Sidebar />
       <main className="flex-1 min-w-0 overflow-y-auto pt-14 lg:pt-0">
         <Routes>
-          <Route path="/"            element={<Intro />} />
+          <Route path="/"            element={<Home />} />
+          <Route path="/intro"         element={<Intro />} />
           <Route path="/capture"     element={<Capture />} />
           <Route path="/filters"     element={<Filters />} />
           <Route path="/dissectors"  element={<Dissectors />} />

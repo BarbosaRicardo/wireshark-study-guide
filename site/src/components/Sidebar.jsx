@@ -9,6 +9,7 @@ import { useProgress } from '../hooks/useProgress'
 import { supabase } from '../lib/supabase'
 import QuizReport from './QuizReport'
 import TrainingModal from './TrainingModal'
+import BadgeTray from './BadgeTray'
 
 const ICON_MAP = {
   ScanSearch, Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard,
@@ -315,7 +316,8 @@ export default function Sidebar() {
             </span>
           </button>
         </div>
-      </nav>
+      </nav>      <BadgeTray />
+
             {/* Footer */}
       <div className="p-4 space-y-3" style={{ borderTop: '1px solid rgba(14,165,233,0.12)' }}>
         <a

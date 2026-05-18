@@ -176,9 +176,7 @@ export default function Sidebar() {
     const guideUrl = (slug) => isGH
       ? `https://barbosaricardo.github.io/${slug}-study-guide/`
       : `https://${slug}-study-guide.vercel.app/`
-    const hubUrl = isGH
-      ? 'https://barbosaricardo.github.io/scada-hub/'
-      : 'https://scada-hub.vercel.app'
+    const hubUrl = 'https://scada-hub.vercel.app'
     const GUIDE_LIST = [
       { name: 'Modbus', slug: 'modbus', color: '#60a5fa', Icon: Network },
       { name: 'OPC UA', slug: 'opcua', color: '#a78bfa', Icon: Globe },
@@ -341,7 +339,7 @@ export default function Sidebar() {
           Course Syllabus
         </a>
         <a
-          href={import.meta.env.BASE_URL !== '/' ? 'https://barbosaricardo.github.io/scada-hub/' : 'https://scada-hub.vercel.app'}
+          href={'https://scada-hub.vercel.app'}
           className="flex items-center justify-center gap-2 w-full px-3 py-2 rounded-xl text-xs font-semibold transition-all"
           style={{ background: 'rgba(14,165,233,0.07)', border: '1px solid rgba(14,165,233,0.18)', color: 'rgba(14,165,233,0.7)' }}
         >

@@ -204,7 +204,7 @@ function ScenarioCard({ questions, chapterId }) {
   if (!questions || questions.length === 0) return null
 
   return (
-    <div className="border-2 rounded-2xl overflow-hidden" style={{ borderColor: open ? 'rgba(34,197,94,0.6)' : 'rgba(255,255,255,0.08)', transition: 'border-color 0.2s' }}>
+    <div className="border-2 rounded-2xl overflow-hidden" style={{ borderColor: open ? 'rgba(34,197,94,0.6)' : 'rgba(255,255,255,0.25)', transition: 'border-color 0.2s' }}>
       <button
         onClick={() => setOpen(o => !o)}
         className="w-full text-left px-4 py-3 flex items-center gap-3 transition-colors"

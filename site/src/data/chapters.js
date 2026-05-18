@@ -40,3 +40,57 @@ export const FUN_FACTS = [
   { text: "DNP3 Secure Authentication (SAv5) was added to the protocol specifically because researchers demonstrated a man-in-the-middle attack using a laptop and Wireshark. The attack required no special hardware — just a captured session and replay.", icon: 'AlertOctagon' },
   { text: "The 'Statistics > I/O Graph' feature in Wireshark can visualize protocol polling intervals. A perfectly regular 5-second spike in Modbus traffic is a healthy RTU scan. An irregular pattern — or a sudden burst — is a diagnostic flag worth investigating.", icon: 'BarChart2' },
 ]
+
+export const FIELD_STORIES = [
+  {
+    title: "The Capture That Proved the PLC Was Right",
+    icon: "Terminal",
+    story: "An industrial network engineer spent three days being told by a PLC vendor that their device was sending correct Modbus responses. The SCADA engineer insisted the responses were malformed. Both had logs. Neither trusted the other's logs. A Wireshark capture on the network segment between them showed, in 90 seconds, that the PLC was sending correct Modbus RTU responses but the TCP gateway was retransmitting them with a corrupted length field. Neither the PLC nor the SCADA system was wrong. The gateway firmware had a bug. The vendor released a patch the following week. Without the packet capture, this would have been a multi-month finger-pointing exercise."
+  },
+  {
+    title: "The OPC UA Session That Went to SecurityMode=None",
+    icon: "Shield",
+    story: "A security audit team used Wireshark to capture OPC UA traffic on the plant network. They expected to see encrypted sessions. Instead, they saw plaintext XML-encoded OPC UA — fully readable, including tag names, process values, and write commands. Filtering on port 4840 and following the TCP stream showed every operator action for the past 4 hours of the capture. The SCADA integrator had deployed SecurityMode=None and never changed it. The Wireshark capture became Exhibit A in the audit finding. The remediation project took 6 months and cost more than the original integration."
+  },
+  {
+    title: "The 10-Second Timeout That Was Actually 10,001ms",
+    icon: "AlertOctagon",
+    story: "A Modbus TCP application was timing out every polling cycle on one specific device. The engineer increased the timeout from 5 seconds to 10 seconds. The device still timed out. A Wireshark capture filtered on the device IP showed the actual response time: 10,001ms — one millisecond over the 10-second timeout. The device was responding correctly; it just took slightly over 10 seconds. The engineer set the timeout to 12 seconds and the problem vanished. Without the capture, the next step would have been RMA-ing the device. The device was fine."
+  },
+  {
+    title: "The Retransmit Storm That Wasn't TCP",
+    icon: "AlertTriangle",
+    story: "A plant network was experiencing periodic slowdowns every 4 hours. Wireshark Statistics > TCP Stream Graphs showed massive retransmit spikes. The network team replaced a switch. The problem continued. A closer look at the capture showed the retransmits were coming from an OPC UA server that was flooding the network during its historian write batch — 800 simultaneous connections all flushing at once. The 'retransmit storm' was legitimate TCP traffic, just very poorly timed. The fix: stagger historian writes across 10-second windows. The slowdowns disappeared. The switch the network team replaced was fine."
+  },
+  {
+    title: "The DNP3 Packet That Wasn't DNP3",
+    icon: "Ghost",
+    story: "A substation engineer reported that the Wireshark DNP3 dissector was showing malformed frames on one outstation. Every fourth or fifth frame was flagged as a DNP3 error. The engineer suspected a firmware bug. A capture filtered on 0x0564 start bytes showed the malformed 'frames' were not DNP3 at all — they were RS-485 noise from a nearby VFD that happened to start with 0x05 followed by a byte close to 0x64. The serial-to-TCP gateway was forwarding all received bytes, including noise. The actual DNP3 frames were fine. The noise frames were the VFD's switching frequency artifacts. A ferrite core on the RS-485 cable eliminated them."
+  },
+]
+
+export const CHAPTER_HOOKS = {
+  intro:      "You suspect a Modbus device is sending malformed responses. Your colleague says their application log shows correct data. You disagree. What is the one thing Wireshark can show you that no application log can — and why does it settle the argument?",
+  capture:    "You want to capture traffic from a device on a managed switch. The switch only delivers traffic addressed to your MAC. What two options do you have — and which one doesn't require switch reconfiguration?",
+  filters:    "You have a 2GB PCAP of mixed traffic from a busy substation. You need to see only DNP3 frames from one specific outstation. Write the display filter — and what would change if you had set a capture filter instead?",
+  dissectors: "A protocol Wireshark doesn't recognize shows as raw TCP data. What two methods can you use to tell Wireshark to decode it as a known protocol — and when does each method work?",
+  modbus:     "A Modbus TCP poll returns exception code 0x04 (Server Device Failure). Your application logs show this as 'device offline.' The device is actually running. What does the Wireshark capture reveal that the application log hides?",
+  dnp3:       "A Wireshark capture shows a DNP3 outstation sending responses with IIN1.6 set. Your SCADA master isn't alarming. What does IIN1.6 mean — and what's the risk of your master ignoring it?",
+  opcua:      "You capture OPC UA traffic and see the SecurityMode field as 'None' in every session establishment. What does that mean for the data being exchanged — and what can anyone on the network segment do with that information?",
+  security:   "You run Wireshark on your plant network for 10 minutes and see Modbus write commands you didn't expect. What's your next step before you escalate to a security incident?",
+  advanced:   "tshark can run continuously on a Linux machine and write to a ring buffer. What does that enable that the Wireshark GUI cannot do — and what's a realistic production use case?",
+  lab:        "Before you use Wireshark on a production network: what three things should you verify to avoid accidentally disrupting traffic or violating policy?",
+}
+
+export const CHAPTER_RETRIEVAL = {
+  intro:      { q: "What was Wireshark originally called, and when was it renamed?", a: "Originally 'Ethereal' (1998); renamed 'Wireshark' in 2006 when the creator left the company that owned the trademark" },
+  capture:    { q: "What is promiscuous mode in Wireshark — and what does it capture that normal mode doesn't?", a: "Promiscuous mode captures all frames on the network segment, not just those addressed to your NIC" },
+  filters:    { q: "What is the Wireshark display filter for DNP3 traffic?", a: "dnp3 — or dnp3 && ip.addr==x.x.x.x to filter by device IP" },
+  dissectors: { q: "What Wireshark feature lets you decode a TCP stream as a specific protocol that Wireshark doesn't auto-detect?", a: "Decode As — right-click a packet and select Decode As to manually assign a dissector" },
+  modbus:     { q: "What Wireshark display filter shows only Modbus TCP traffic?", a: "modbus — or mbtcp for the transport layer; tcp.port==502 if the dissector isn't auto-applying" },
+  dnp3:       { q: "What two bytes start every DNP3 frame — and what Wireshark filter finds them?", a: "0x05 0x64 — display filter: dnp3 or frame contains 05:64" },
+  opcua:      { q: "What Wireshark display filter shows OPC UA traffic?", a: "opcua — Wireshark auto-dissects OPC UA Binary on port 4840 and 4843" },
+  security:   { q: "What Wireshark feature helps you identify which connections have the most retransmits or resets?", a: "Statistics > TCP Stream Graphs, or Statistics > Conversations sorted by bytes/packets" },
+  advanced:   { q: "What is the command-line Wireshark tool that allows headless capture and analysis?", a: "tshark — supports all Wireshark dissectors and filters in a scriptable CLI interface" },
+  lab:        { q: "What Wireshark feature lets you replay a PCAP file to test dissectors or applications?", a: "tcpreplay (external tool) or File > Export to replay; Wireshark itself is a passive analyzer only" },
+}

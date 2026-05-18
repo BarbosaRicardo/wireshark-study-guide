@@ -1,12 +1,30 @@
-import React, { useEffect } from 'react'
-import { motion } from 'framer-motion'
+import React, { useEffect, useState } from 'react'
+import { motion, AnimatePresence } from 'framer-motion'
 import { Link, useNavigate } from 'react-router-dom'
-import { ChevronLeft, ChevronRight, BookOpen, Home, Database, Binary, Cpu, Radio, FileText, Globe, Settings, AlertTriangle, Wrench, Shield, FlaskConical } from 'lucide-react'
-import { CHAPTERS } from '../data/chapters'
+import { ChevronLeft, ChevronRight, BookOpen, Home, ScanSearch, Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, Clock, HelpCircle, ChevronDown } from 'lucide-react'
+import { CHAPTERS, CHAPTER_HOOKS, CHAPTER_RETRIEVAL } from '../data/chapters'
 import { useProgress } from '../hooks/useProgress'
 
+const READ_TIME = {
+  intro: 10, capture: 12, filters: 14, dissectors: 12,
+  modbus: 14, dnp3: 12, opcua: 12, security: 14, advanced: 16, lab: 20,
+}
+
+const CHAPTER_STAKES = {
+  intro:      'Every network problem you will ever debug gets solved faster if you can read packets directly. Most engineers never learn this. You\'re starting here.',
+  capture:    'Capturing the wrong interface — or without a SPAN port — means you\'re analyzing your own traffic and wondering why the problem doesn\'t show up. This chapter prevents that wasted day.',
+  filters:    'A display filter written correctly finds the packet in 10 seconds. Written wrong, it hides the packet you\'re looking for. The difference is knowing the filter syntax.',
+  dissectors: 'Wireshark can\'t always tell what protocol is in a non-standard port. Knowing how to force it changes whether you can read the traffic at all.',
+  modbus:     'Modbus has no authentication. Wireshark makes that visible in seconds. This chapter is where the abstract security concern becomes a concrete frame on your screen.',
+  dnp3:       'DNP3 Secure Authentication exists because engineers used Wireshark to demonstrate a replay attack that required nothing but a captured session. This chapter shows you what they saw.',
+  opcua:      'OPC UA\'s security modes sound reassuring. Wireshark shows you which one is actually in use. Most production systems are using None when they should be using SignAndEncrypt.',
+  security:   'Anomaly detection in ICS traffic is pattern recognition. This chapter shows you how a Modbus master that polled 10 coils for 3 years can instantly look different the morning after an intrusion.',
+  advanced:   'tshark on a Raspberry Pi, ring-buffer captures, automated alerting — Wireshark is not just a desktop tool. This chapter is where it becomes infrastructure.',
+  lab:        'The best Wireshark practice is real traffic. This lab gives you PCAPs to analyze — the same kind of forensic work that traces real incidents.',
+}
+
 const ICON_MAP = {
-  Home, BookOpen, Database, Binary, Cpu, Radio, FileText, Globe, Settings, AlertTriangle, Wrench, Shield, FlaskConical,
+  Home, BookOpen, ScanSearch, Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical,
 }
 
 function ChapterBattery({ status, nextChapter }) {
@@ -42,11 +60,7 @@ function ChapterBattery({ status, nextChapter }) {
               className="flex-1 flex items-center justify-center relative"
               style={{
                 borderRight: i < 3 ? '1px solid rgba(255,255,255,0.08)' : 'none',
-                background: status[cell.key]
-                  ? isComplete
-                    ? 'rgba(74,222,128,0.32)'
-                    : 'rgba(74,222,128,0.28)'
-                  : 'transparent',
+                background: status[cell.key] ? 'rgba(74,222,128,0.28)' : 'transparent',
                 transition: 'background 0.4s ease',
               }}
             >
@@ -64,9 +78,38 @@ function ChapterBattery({ status, nextChapter }) {
             </div>
           ))}
 
-          {/* Center label overlay — only when complete */}
+          {/* Left-to-right charging sweep — clipped to filled zone only */}
+          {filled > 0 && !isComplete && (
+            <div
+              className="absolute inset-y-0 left-0 overflow-hidden pointer-events-none"
+              style={{ width: `${(filled / 4) * 100}%`, zIndex: 10 }}
+            >
+              <motion.div
+                className="absolute inset-y-0"
+                style={{
+                  background: 'linear-gradient(90deg, transparent 0%, rgba(74,222,128,0.6) 50%, transparent 100%)',
+                  width: '50%',
+                }}
+                animate={{ x: ['-100%', '200%'] }}
+                transition={{ duration: 1.6, repeat: Infinity, ease: 'easeInOut', repeatDelay: 0.6 }}
+              />
+            </div>
+          )}
+
+          {/* Completed: full green pulse + label */}
           {isComplete && (
-            <div className="absolute inset-0 flex items-center justify-center pointer-events-none">
+            <motion.div
+              className="absolute inset-0 flex items-center justify-center pointer-events-none"
+              animate={{
+                background: [
+                  'rgba(74,222,128,0.18)',
+                  'rgba(74,222,128,0.38)',
+                  'rgba(74,222,128,0.18)',
+                ],
+              }}
+              transition={{ duration: 1.8, repeat: Infinity, ease: 'easeInOut' }}
+              style={{ zIndex: 10 }}
+            >
               <span
                 className="text-xs font-black tracking-widest uppercase"
                 style={{
@@ -75,9 +118,9 @@ function ChapterBattery({ status, nextChapter }) {
                   textShadow: '0 0 12px rgba(74,222,128,0.7)',
                 }}
               >
-                ✓ COMPLETED
+                ✓ Completed
               </span>
-            </div>
+            </motion.div>
           )}
         </div>
 
@@ -92,18 +135,6 @@ function ChapterBattery({ status, nextChapter }) {
             transition: 'background 0.5s ease',
           }}
         />
-      </div>
-
-      {/* Cell legend */}
-      <div className="flex gap-4 text-xs" style={{ color: 'rgba(255,255,255,0.3)' }}>
-        {cells.map((cell) => (
-          <span
-            key={cell.key}
-            style={{ color: status[cell.key] ? '#86efac' : 'rgba(255,255,255,0.25)' }}
-          >
-            {cell.label === 'Field' ? 'Field Scenarios' : `Level ${cell.label.slice(1)}`}
-          </span>
-        ))}
       </div>
 
       {/* Next Up card — shown when complete */}
@@ -128,6 +159,8 @@ export default function ChapterLayout({ chapterId, title, children, prev, next }
   const { markChapterVisited, markChapterComplete, getChapterStatus } = useProgress()
   const navigate = useNavigate()
   const status = getChapterStatus(chapterId)
+  const [retrievalChapter, setRetrievalChapter] = useState(null)
+  const [retrievalRevealed, setRetrievalRevealed] = useState(false)
 
   const chapter = CHAPTERS.find((c) => c.id === chapterId)
   const ChIcon = ICON_MAP[chapter?.icon] || BookOpen
@@ -136,6 +169,18 @@ export default function ChapterLayout({ chapterId, title, children, prev, next }
 
   useEffect(() => {
     markChapterVisited(chapterId)
+    localStorage.setItem(`ch_visited_${chapterId}`, String(Date.now()))
+
+    const fiveDaysMs = 5 * 86400000
+    const now = Date.now()
+    const stale = CHAPTERS.filter(c => c.id !== 'home' && c.id !== chapterId && CHAPTER_RETRIEVAL[c.id]).filter(c => {
+      const ts = parseInt(localStorage.getItem(`ch_visited_${c.id}`) || '0', 10)
+      return ts > 0 && (now - ts) >= fiveDaysMs
+    })
+    if (stale.length > 0) {
+      setRetrievalChapter(stale[Math.floor(Math.random() * stale.length)])
+    }
+
     window.scrollTo(0, 0)
   }, [chapterId])
 
@@ -170,10 +215,68 @@ export default function ChapterLayout({ chapterId, title, children, prev, next }
               style={{ background: 'linear-gradient(135deg, rgba(0,210,160,0.2), rgba(6,182,212,0.15))', border: '1px solid rgba(0,210,160,0.3)' }}>
               <ChIcon size={28} style={{ color: '#2dd4bf' }} />
             </div>
-            <h1 className="text-3xl font-black text-white leading-tight tracking-tight">{title}</h1>
+            <div>
+              <h1 className="text-3xl font-black text-white leading-tight tracking-tight">{title}</h1>
+              {READ_TIME[chapterId] && (
+                <div className="flex items-center gap-1.5 mt-1">
+                  <Clock size={11} style={{ color: 'rgba(45,212,191,0.5)' }} />
+                  <span className="text-xs" style={{ color: 'rgba(45,212,191,0.5)' }}>~{READ_TIME[chapterId]} min read</span>
+                </div>
+              )}
+            </div>
           </div>
+          {CHAPTER_STAKES[chapterId] && (
+            <p className="mt-3 text-sm italic leading-relaxed" style={{ color: 'rgba(45,212,191,0.55)' }}>
+              {CHAPTER_STAKES[chapterId]}
+            </p>
+          )}
           <div className="mt-4 h-px" style={{ background: 'linear-gradient(90deg, rgba(0,210,160,0.7), rgba(6,182,212,0.4), transparent)' }} />
         </div>
+
+        {/* Spaced retrieval banner */}
+        {retrievalChapter && CHAPTER_RETRIEVAL[retrievalChapter.id] && (
+          <div className="rounded-xl p-4 mb-2" style={{ background: 'rgba(139,92,246,0.07)', border: '1px solid rgba(139,92,246,0.2)' }}>
+            <div className="flex items-center gap-2 mb-2">
+              <HelpCircle size={13} style={{ color: '#a78bfa' }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: '#a78bfa' }}>
+                Retrieval Check — {retrievalChapter.label}
+              </span>
+              <span className="text-xs" style={{ color: 'rgba(167,139,250,0.5)' }}>It's been a while</span>
+            </div>
+            <p className="text-sm font-semibold text-slate-200 mb-2">{CHAPTER_RETRIEVAL[retrievalChapter.id].q}</p>
+            <AnimatePresence>
+              {retrievalRevealed ? (
+                <motion.p
+                  initial={{ opacity: 0, height: 0 }}
+                  animate={{ opacity: 1, height: 'auto' }}
+                  className="text-sm font-mono"
+                  style={{ color: '#4ade80' }}
+                >
+                  {CHAPTER_RETRIEVAL[retrievalChapter.id].a}
+                </motion.p>
+              ) : (
+                <button
+                  onClick={() => setRetrievalRevealed(true)}
+                  className="text-xs font-semibold flex items-center gap-1"
+                  style={{ color: 'rgba(167,139,250,0.7)' }}
+                >
+                  <ChevronDown size={12} /> Reveal answer
+                </button>
+              )}
+            </AnimatePresence>
+          </div>
+        )}
+
+        {/* Opening hook */}
+        {CHAPTER_HOOKS[chapterId] && (
+          <div className="rounded-xl p-4 mb-2" style={{ background: 'rgba(45,212,191,0.05)', border: '1px solid rgba(45,212,191,0.15)' }}>
+            <div className="flex items-center gap-2 mb-1.5">
+              <HelpCircle size={13} style={{ color: 'rgba(45,212,191,0.6)' }} />
+              <span className="text-xs font-bold uppercase tracking-widest" style={{ color: 'rgba(45,212,191,0.5)' }}>Think First</span>
+            </div>
+            <p className="text-sm leading-relaxed" style={{ color: 'rgba(45,212,191,0.75)' }}>{CHAPTER_HOOKS[chapterId]}</p>
+          </div>
+        )}
 
         {/* Content */}
         <div className="space-y-6 text-slate-300 leading-relaxed">

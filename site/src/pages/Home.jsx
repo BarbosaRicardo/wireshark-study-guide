@@ -1,11 +1,38 @@
 import React, { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { motion } from 'framer-motion'
-import { BookOpen, Zap, Award, Clock, ArrowRight, ScanSearch, Wifi, Shield, Network } from 'lucide-react'
+import { BookOpen, Zap, Award, Clock, ArrowRight, ScanSearch, Wifi, Shield, Network, Filter, Layers, Globe, Terminal, FlaskConical, CreditCard, CheckCircle2 } from 'lucide-react'
 import { useProgress } from '../hooks/useProgress'
 import { CHAPTERS } from '../data/chapters'
 import GifCard from '../components/GifCard'
 import TrainingPanel from '../components/TrainingPanel'
+
+const ICON_MAP = {
+  ScanSearch, Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard, BookOpen,
+}
+
+const COMMIT_KEY = 'wireshark_committed'
+const LAST_VISIT_KEY = 'wireshark_last_visit'
+const BANNER_SHOWN_KEY = 'wireshark_banner_shown'
+
+function getFreshStartMessage() {
+  const lastVisit = parseInt(localStorage.getItem(LAST_VISIT_KEY) || '0', 10)
+  const lastBanner = parseInt(localStorage.getItem(BANNER_SHOWN_KEY) || '0', 10)
+  const now = Date.now()
+  const daysSince = (now - lastVisit) / 86400000
+  const hoursSinceBanner = (now - lastBanner) / 3600000
+  if (hoursSinceBanner < 48) return null
+  const d = new Date()
+  const isMonday = d.getDay() === 1
+  const isFirstOfMonth = d.getDate() === 1
+  if (daysSince >= 5 || isMonday || isFirstOfMonth) {
+    localStorage.setItem(BANNER_SHOWN_KEY, String(now))
+    if (isMonday) return "New week — engineers who study packet analysis consistently find issues 3× faster."
+    if (isFirstOfMonth) return "New month, fresh start — what will you finish before it ends?"
+    return "Welcome back — pick up where you left off. Your progress is exactly where you left it."
+  }
+  return null
+}
 
 const STATS = [
   { icon: BookOpen,   label: '10 Chapters', sub: 'Capture to forensics' },
@@ -22,15 +49,50 @@ const HERO_OPTIONS = [
   { id: 'SsBz0oSJ1botYaLqAR',        caption: `IO Graph: retransmits spike at 14:32. Exactly when the alarm fired.`, tooltip: `Wireshark IO Graph plots packet metrics over time — counts, bytes, specific field values. Overlaying a TCP retransmit graph with an alarm timeline is how you prove the network caused the incident, not the application. Data beats guesswork in every postmortem.` },
 ]
 export default function Home() {
-  const { overallProgress, reset } = useProgress()
+  const { overallProgress, getChapterStatus, reset } = useProgress()
   const [heroIdx] = useState(() => Math.floor(Math.random() * HERO_OPTIONS.length))
+  const [committed, setCommitted] = useState(() => !!localStorage.getItem(COMMIT_KEY))
+  const [freshMsg] = useState(() => getFreshStartMessage())
+  const [streak] = useState(() => {
+    try {
+      const today = new Date().toISOString().split('T')[0]
+      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
+      const lastDate = localStorage.getItem('wireshark_streak_date') || ''
+      const cur = parseInt(localStorage.getItem('wireshark_streak') || '0', 10)
+      if (lastDate === today) return cur
+      const next = lastDate === yesterday ? cur + 1 : 1
+      localStorage.setItem('wireshark_streak', String(next))
+      localStorage.setItem('wireshark_streak_date', today)
+      return next
+    } catch { return 1 }
+  })
   const prog = overallProgress()
+
+  useState(() => { localStorage.setItem(LAST_VISIT_KEY, String(Date.now())) })
+
+  const chaptersOnly = CHAPTERS.filter(c => c.id !== 'home' && c.id !== 'flashcards')
 
   const container = { hidden: { opacity: 0 }, show: { opacity: 1, transition: { staggerChildren: 0.08 } } }
   const item = { hidden: { opacity: 0, y: 20 }, show: { opacity: 1, y: 0 } }
 
+  function handleCommit() {
+    localStorage.setItem(COMMIT_KEY, '1')
+    setCommitted(true)
+  }
+
   return (
     <motion.div variants={container} initial="hidden" animate="show" className="max-w-4xl mx-auto py-10 px-4 space-y-10">
+
+      {/* Fresh Start Effect banner */}
+      {freshMsg && (
+        <motion.div variants={item}
+          className="rounded-xl px-4 py-3 text-sm flex items-center gap-3"
+          style={{ background: 'rgba(56,189,248,0.07)', border: '1px solid rgba(56,189,248,0.2)' }}
+        >
+          <span style={{ color: '#38bdf8' }}>↺</span>
+          <span style={{ color: 'rgba(56,189,248,0.8)' }}>{freshMsg}</span>
+        </motion.div>
+      )}
 
       {/* Hero */}
       <motion.div variants={item} className="text-center">
@@ -46,10 +108,30 @@ export default function Home() {
             </p>
             <div className="flex gap-3 mt-6">
               <Link to="/intro" className="btn-primary flex items-center gap-2">
-                Start Learning <ArrowRight size={16} />
+                {prog.visited > 0 ? 'Continue Learning' : 'Start Learning'} <ArrowRight size={16} />
               </Link>
               {prog.pct > 0 && <Link to="/lab" className="btn-secondary">Practice Lab</Link>}
             </div>
+
+            {/* Commitment CTA — shown only before commit */}
+            {!committed && prog.visited === 0 && (
+              <button
+                onClick={handleCommit}
+                className="mt-4 flex items-center gap-2 text-sm transition-all hover:opacity-90"
+                style={{ color: 'rgba(56,189,248,0.6)' }}
+              >
+                <div className="w-4 h-4 rounded border flex items-center justify-center flex-shrink-0"
+                  style={{ borderColor: 'rgba(56,189,248,0.4)' }}>
+                </div>
+                I commit to finishing this course
+              </button>
+            )}
+            {committed && prog.visited === 0 && (
+              <div className="mt-4 flex items-center gap-2 text-sm" style={{ color: 'rgba(56,189,248,0.55)' }}>
+                <CheckCircle2 size={14} style={{ color: '#38bdf8' }} />
+                <span>Committed. Chapter 1 is waiting.</span>
+              </div>
+            )}
           </div>
           <div className="flex-shrink-0">
             <GifCard gifId={HERO_OPTIONS[heroIdx].id} caption={HERO_OPTIONS[heroIdx].caption} tooltip={HERO_OPTIONS[heroIdx].tooltip} side="right" />
@@ -62,7 +144,12 @@ export default function Home() {
         <motion.div variants={item} className="card">
           <div className="flex items-center justify-between mb-3">
             <h3 className="font-bold text-slate-100">Your Progress</h3>
-            <button onClick={reset} className="text-xs text-slate-400 hover:text-red-400 transition-colors">Reset</button>
+            <div className="flex items-center gap-3">
+              {streak > 1 && (
+                <span className="text-xs font-bold" style={{ color: '#f97316' }}>🔥 {streak}-day streak</span>
+              )}
+              <button onClick={reset} className="text-xs text-slate-400 hover:text-red-400 transition-colors">Reset</button>
+            </div>
           </div>
           <div className="h-3 rounded-full overflow-hidden mb-2" style={{ background: 'rgba(255,255,255,0.08)' }}>
             <motion.div className="h-full bg-mblue-600 rounded-full" initial={{ width: 0 }} animate={{ width: `${prog.pct}%` }} transition={{ duration: 0.8, ease: 'easeOut' }} />
@@ -108,21 +195,59 @@ export default function Home() {
         </div>
       </motion.div>
 
-      {/* Chapter grid */}
+      {/* Chapter grid — 4-dot progress */}
       <motion.div variants={item}>
-        <h2 className="text-xl font-bold text-mblue-600 mb-4">Chapters</h2>
+        <div className="flex items-center justify-between mb-4">
+          <h2 className="text-xl font-bold" style={{ color: '#38bdf8' }}>Chapters</h2>
+          {prog.visited > 0 && (
+            <span className="text-xs text-slate-500">
+              {chaptersOnly.filter(ch => getChapterStatus(ch.id).visited).length} of {chaptersOnly.length} visited
+            </span>
+          )}
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-          {CHAPTERS.filter(c => c.id !== 'home' && c.id !== 'flashcards').map((ch) => (
-            <Link key={ch.id} to={ch.path} className="card flex items-center gap-4 hover:border-mblue-200 hover:shadow-md transition-all group">
-              <div className="w-10 h-10 rounded-xl bg-mblue-50 flex items-center justify-center flex-shrink-0">
-                <BookOpen size={20} className="text-mblue-600" />
-              </div>
-              <div className="flex-1">
-                <div className="font-semibold text-slate-100 group-hover:text-mblue-600 transition-colors">{ch.label}</div>
-              </div>
-              <ArrowRight size={16} className="text-slate-300 group-hover:text-mblue-400 transition-colors" />
-            </Link>
-          ))}
+          {chaptersOnly.map((ch) => {
+            const ChIcon = ICON_MAP[ch.icon] || BookOpen
+            const status = getChapterStatus(ch.id)
+            const allFour = status.level1Passed && status.level2Passed && status.level3Passed && status.level4Passed
+            return (
+              <Link key={ch.id} to={ch.path} className="card flex items-center gap-4 hover:border-mblue-200 hover:shadow-md transition-all group">
+                <div className="w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0"
+                  style={{
+                    background: allFour
+                      ? 'rgba(74,222,128,0.15)'
+                      : status.visited
+                        ? 'rgba(56,189,248,0.12)'
+                        : 'rgba(56,189,248,0.06)',
+                  }}>
+                  <ChIcon size={20} style={{ color: allFour ? '#4ade80' : status.visited ? '#38bdf8' : 'rgba(56,189,248,0.5)' }} />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <div className="font-semibold text-slate-100 group-hover:text-sky-400 transition-colors truncate">{ch.label}</div>
+                  {status.visited && (
+                    <div className="flex items-center gap-1 mt-1">
+                      {[
+                        { key: 'level1Passed', color: '#34d399' },
+                        { key: 'level2Passed', color: '#fbbf24' },
+                        { key: 'level3Passed', color: '#f87171' },
+                        { key: 'level4Passed', color: '#4ade80' },
+                      ].map((dot) => (
+                        <div key={dot.key} className="w-1.5 h-1.5 rounded-full"
+                          style={{ background: status[dot.key] ? dot.color : 'rgba(255,255,255,0.12)' }} />
+                      ))}
+                      <span className="text-xs ml-1" style={{ color: 'rgba(255,255,255,0.3)' }}>
+                        {allFour ? 'complete' : 'in progress'}
+                      </span>
+                    </div>
+                  )}
+                </div>
+                {allFour
+                  ? <CheckCircle2 size={16} style={{ color: '#4ade80' }} className="flex-shrink-0" />
+                  : <ArrowRight size={16} className="text-slate-300 group-hover:text-sky-400 transition-colors flex-shrink-0" />
+                }
+              </Link>
+            )
+          })}
         </div>
       </motion.div>
 
@@ -131,11 +256,21 @@ export default function Home() {
         <TrainingPanel course="wireshark" />
       </motion.div>
 
-      {/* Footer */}
+      {/* Footer motivator — loss framing when in progress */}
       <motion.div variants={item} className="text-center py-4">
-        <p className="text-slate-400 text-sm italic">
-          "The network doesn't lie. Wireshark just makes it tell the truth out loud."
-        </p>
+        {prog.visited > 0 && prog.pct < 100 ? (
+          <p className="text-slate-400 text-sm italic">
+            "{chaptersOnly.length - prog.visited} chapters left to finish. Don't leave them unread."
+          </p>
+        ) : prog.pct === 100 ? (
+          <p className="text-slate-400 text-sm italic">
+            "You finished. The network doesn't lie — and now you know how to make it talk."
+          </p>
+        ) : (
+          <p className="text-slate-400 text-sm italic">
+            "The network doesn't lie. Wireshark just makes it tell the truth out loud."
+          </p>
+        )}
       </motion.div>
     </motion.div>
   )

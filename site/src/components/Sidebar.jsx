@@ -50,32 +50,113 @@ export default function Sidebar() {
     if (error) { setLoginError(error.message) } else { setShowLogin(false) }
   }
 
-    const { getChapterStatus, overallProgress } = useProgress()
+  const { getChapterStatus, overallProgress } = useProgress()
   const prog = overallProgress()
+
+  const [streak] = useState(() => {
+    try {
+      const today = new Date().toISOString().split('T')[0]
+      const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
+      const lastDate = localStorage.getItem('wireshark_streak_date') || ''
+      const cur = parseInt(localStorage.getItem('wireshark_streak') || '0', 10)
+      if (lastDate === today) return cur
+      const next = lastDate === yesterday ? cur + 1 : 1
+      localStorage.setItem('wireshark_streak', String(next))
+      localStorage.setItem('wireshark_streak_date', today)
+      return next
+    } catch { return 1 }
+  })
+
+  const READ_TIME = {
+    intro: 10, capture: 12, filters: 14, dissectors: 12,
+    modbus: 14, dnp3: 12, opcua: 12, security: 14, advanced: 16, lab: 20,
+  }
+
+  const chaptersOnly = CHAPTERS.filter(ch => ch.id !== 'home' && ch.id !== 'flashcards')
+  const totalChapters = chaptersOnly.length
+
+  const completedCount = chaptersOnly.filter(ch => {
+    const s = getChapterStatus(ch.id)
+    return s.level1Passed && s.level2Passed && s.level3Passed && s.level4Passed
+  }).length
+  const remaining = totalChapters - completedCount
+
+  const nextChapterId = chaptersOnly.find(ch => !getChapterStatus(ch.id).level1Passed)?.id
 
   const NavItem = ({ ch }) => {
     const status = getChapterStatus(ch.id)
     const Icon = ICON_MAP[ch.icon] || ScanSearch
+    const isNext = ch.id === nextChapterId
+    const readTime = READ_TIME[ch.id]
+
+    const colonIdx = ch.label.indexOf(': ')
+    const prefix = colonIdx !== -1 ? ch.label.slice(0, colonIdx + 1) : null
+    const topic  = colonIdx !== -1 ? ch.label.slice(colonIdx + 2) : ch.label
+
+    const filledCount = [status.level1Passed, status.level2Passed, status.level3Passed].filter(Boolean).length
+    const nearComplete = filledCount > 0 && filledCount < 3
+
     return (
-      <NavLink
-        to={ch.path}
-        onClick={() => setOpen(false)}
-        className={({ isActive }) => `chapter-nav-item ${isActive ? 'active' : ''}`}
-      >
-        <Icon size={15} className="flex-shrink-0 opacity-70" />
-        <span className="flex-1 truncate">{ch.label}</span>
-        <div className="flex gap-0.5 flex-shrink-0 items-center">
-          {status.completed ? (
-            <CheckCircle2 size={13} className="text-emerald-400" />
-          ) : (
-            <>
-              <div className={`w-1.5 h-1.5 rounded-full transition-all ${status.level1Passed ? 'bg-emerald-400 shadow-glow-green' : status.visited ? 'bg-amber-400' : 'bg-white/10'}`} />
-              <div className={`w-1.5 h-1.5 rounded-full transition-all ${status.level2Passed ? 'bg-amber-400' : 'bg-white/10'}`} />
-              <div className={`w-1.5 h-1.5 rounded-full transition-all ${status.level3Passed ? 'bg-rose-400' : 'bg-white/10'}`} />
-            </>
-          )}
-        </div>
-      </NavLink>
+      <div>
+        <NavLink
+          to={ch.path}
+          onClick={() => setOpen(false)}
+          className={({ isActive }) => `chapter-nav-item ${isActive ? 'active' : ''}`}
+        >
+          <Icon size={15} className="flex-shrink-0 opacity-70" />
+          <span className="flex-1 truncate">
+            {prefix && <span className="opacity-40 font-normal mr-1 text-xs">{prefix}</span>}
+            <span className="font-semibold">{topic}</span>
+          </span>
+          <div className="flex gap-0.5 flex-shrink-0 items-center">
+            {status.completed ? (
+              <CheckCircle2 size={13} className="text-emerald-400" />
+            ) : (
+              <>
+                <div className={`rounded-full transition-all ${
+                  status.level1Passed
+                    ? 'w-1.5 h-1.5 bg-emerald-400 shadow-glow-green'
+                    : nearComplete
+                      ? 'w-2 h-2 bg-white/15'
+                      : status.visited
+                        ? 'w-1.5 h-1.5 bg-amber-400'
+                        : 'w-1.5 h-1.5 bg-white/10'
+                }`}
+                  style={!status.level1Passed && nearComplete ? { boxShadow: '0 0 5px rgba(45,212,191,0.4)' } : {}}
+                />
+                <div className={`rounded-full transition-all ${
+                  status.level2Passed
+                    ? 'w-1.5 h-1.5 bg-amber-400'
+                    : nearComplete && filledCount >= 1
+                      ? 'w-2 h-2 bg-white/15'
+                      : 'w-1.5 h-1.5 bg-white/10'
+                }`}
+                  style={!status.level2Passed && nearComplete && filledCount >= 1 ? { boxShadow: '0 0 5px rgba(45,212,191,0.4)' } : {}}
+                />
+                <div className={`rounded-full transition-all ${
+                  status.level3Passed
+                    ? 'w-1.5 h-1.5 bg-rose-400'
+                    : nearComplete && filledCount >= 2
+                      ? 'w-2 h-2 bg-white/15'
+                      : 'w-1.5 h-1.5 bg-white/10'
+                }`}
+                  style={!status.level3Passed && nearComplete && filledCount >= 2 ? { boxShadow: '0 0 5px rgba(45,212,191,0.4)' } : {}}
+                />
+              </>
+            )}
+          </div>
+        </NavLink>
+        {(isNext || (!status.visited && readTime)) && (
+          <div className="ml-9 mb-0.5 mt-0.5 flex items-center gap-2">
+            {isNext && (
+              <span className="font-semibold tracking-wide" style={{ color: '#2dd4bf', fontSize: '0.65rem' }}>▶ Up next</span>
+            )}
+            {!status.visited && readTime && (
+              <span style={{ color: 'rgba(255,255,255,0.22)', fontSize: '0.6rem' }}>~{readTime} min</span>
+            )}
+          </div>
+        )}
+      </div>
     )
   }
   const HomeItem = () => (
@@ -86,7 +167,7 @@ export default function Sidebar() {
       className={({ isActive }) => `chapter-nav-item ${isActive ? 'active' : ''}`}
     >
       <Home size={15} className="flex-shrink-0 opacity-70" />
-      <span className="flex-1 truncate">Home</span>
+      <span className="flex-1 truncate">Course Home</span>
     </NavLink>
   )
   const AllGuidesItem = () => {
@@ -169,11 +250,26 @@ export default function Sidebar() {
           <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'rgba(255,255,255,0.06)' }}>
             <div className="progress-bar h-full" style={{ width: `${prog.pct}%` }} />
           </div>
-          <div className="mt-2 flex gap-3 text-xs">
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />L1: {prog.l1 || 0}</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />L2: {prog.l2 || 0}</span>
-            <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-rose-400 inline-block" />L3: {prog.l3 || 0}</span>
-            <span className="ml-auto text-slate-600">{prog.visited} read</span>
+          {streak > 1 && (
+            <div className="mt-1.5 flex items-center gap-1.5">
+              <span style={{ fontSize: '0.7rem' }}>🔥</span>
+              <span className="text-xs font-bold" style={{ color: '#f97316' }}>{streak}-day streak</span>
+              <span className="text-xs" style={{ color: 'rgba(249,115,22,0.4)' }}>— don't break it</span>
+            </div>
+          )}
+          <div className="mt-2 flex items-center justify-between text-xs">
+            <div className="flex gap-3">
+              <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-emerald-400 inline-block" />L1: {prog.l1 || 0}</span>
+              <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-amber-400 inline-block" />L2: {prog.l2 || 0}</span>
+              <span className="flex items-center gap-1"><span className="w-1.5 h-1.5 rounded-full bg-rose-400 inline-block" />L3: {prog.l3 || 0}</span>
+            </div>
+            <span className="font-medium transition-colors" style={{ color: remaining === 0 ? '#4ade80' : '#64748b' }}>
+              {remaining === 0
+                ? 'All done ✓'
+                : completedCount === 0
+                  ? `${totalChapters} to finish`
+                  : `${remaining} left`}
+            </span>
           </div>
         </div>
       </div>
@@ -182,9 +278,30 @@ export default function Sidebar() {
       <nav className="flex-1 overflow-y-auto p-3 space-y-0.5">
         <HomeItem />
         <AllGuidesItem />
-        {CHAPTERS.filter(ch => ch.id !== 'home').map((ch) => (
+        {CHAPTERS.filter(ch => ch.id !== 'home' && ch.id !== 'flashcards').map((ch) => (
           <NavItem key={ch.id} ch={ch} />
         ))}
+        <div className="pt-2 border-t border-white/5 mt-2">
+          <NavLink
+            to="/flashcards"
+            onClick={() => setOpen(false)}
+            className={({ isActive }) => `chapter-nav-item ${isActive ? 'active' : ''}`}
+          >
+            <CreditCard size={15} className="text-violet-400 flex-shrink-0" />
+            <span className="flex-1 truncate font-semibold">Flashcards</span>
+          </NavLink>
+          <button
+            onClick={() => setShowTraining(true)}
+            className="chapter-nav-item w-full mt-0.5"
+          >
+            <GraduationCap size={15} className="text-blue-400 flex-shrink-0" />
+            <span className="flex-1 text-left truncate font-semibold">More Training</span>
+            <span className="text-xs px-1.5 py-0.5 rounded-full text-blue-400"
+              style={{ background: 'rgba(59,130,246,0.15)', border: '1px solid rgba(59,130,246,0.3)' }}>
+              LIVE
+            </span>
+          </button>
+        </div>
       </nav>
             {/* Footer */}
       <div className="p-4 space-y-3" style={{ borderTop: '1px solid rgba(14,165,233,0.12)' }}>

@@ -151,7 +151,12 @@ function LevelCard({ meta, questions, chapterId, locked, passed }) {
               ? <ChevronUp size={18} className="text-slate-400 flex-shrink-0" />
               : <ChevronDown size={18} className="text-slate-600 flex-shrink-0" />
           )}
-          {locked && <Lock size={14} className="text-slate-600 flex-shrink-0" />}
+          {locked && (
+            <div className="flex items-center gap-1.5 flex-shrink-0">
+              <Lock size={13} className="text-slate-600" />
+              <span className="text-xs text-slate-700">pass {level === 2 ? 'L1' : 'L2'} first</span>
+            </div>
+          )}
         </button>
 
         {!locked && open && (

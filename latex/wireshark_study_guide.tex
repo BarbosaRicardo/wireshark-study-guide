@@ -184,10 +184,12 @@
   \renewcommand{\afterchapternum}{\par\vspace{4pt}}
   \renewcommand{\afterchaptertitle}{%
     \par\vspace{4pt}
+\resizebox{\textwidth}{!}{%
     \begin{tikzpicture}
       \draw[wsblue, line width=2.5pt] (0,0) -- (\textwidth,0);
       \draw[wsorange, line width=1.2pt] (0,-3pt) -- (3cm,-3pt);
     \end{tikzpicture}
+}
     \par\vspace{16pt}
   }
 }
@@ -217,15 +219,18 @@
   {\fontsize{11}{13}\sffamily\color{wslight}\MakeUppercase{Industrial Automation Series}}\\[0.8cm]
   {\fontsize{44}{50}\bfseries\sffamily Wireshark}\\[0.3cm]
   {\fontsize{28}{32}\sffamily\color{wscyan!80} for SCADA Engineers}\\[1.5cm]
+\resizebox{\textwidth}{!}{%
   \begin{tikzpicture}
     \draw[wscyan, line width=2pt] (0,0) -- (10cm,0);
     \draw[wsorange, line width=1pt] (0,-4pt) -- (3cm,-4pt);
-  \end{tikzpicture}\\[1.5cm]
+  \end{tikzpicture}%
+}\\[1.5cm]
   {\large\sffamily\color{covergray}
     Protocol capture, display filters, and dissector analysis\\[0.3cm]
     Modbus, DNP3, and OPC UA on the wire\\[0.3cm]
     Security anomaly detection and field forensics
   }\\[2cm]
+\resizebox{\textwidth}{!}{%
   \begin{tikzpicture}
     \node[draw=wscyan, rounded corners=8pt, inner sep=12pt,
           fill=wsblue!40]{
@@ -233,6 +238,7 @@
       10 Chapters $\cdot$ Filter Reference $\cdot$ Field War Stories $\cdot$ tshark Cheatsheet
     };
   \end{tikzpicture}
+}
   \vfill
   {\small\sffamily\color{gray} For SCADA and Industrial Automation Engineers}
 \end{center}
@@ -729,6 +735,7 @@ Modbus TCP operates on port 502. The default configuration of most PLCs and fiel
 Modbus TCP wraps the core Modbus PDU in a 7-byte MBAP header. The full frame:
 
 \begin{center}
+\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}[
   box/.style={rectangle, draw=wsblue, fill=wsblue!10, minimum height=1.2cm,
               text centered, font=\small\sffamily, inner sep=4pt},
@@ -752,6 +759,7 @@ Modbus TCP wraps the core Modbus PDU in a 7-byte MBAP header. The full frame:
 \draw [decorate, decoration={brace, amplitude=6pt}, wsorange]
   (fc.north west) -- (data.north east) node[midway, above=8pt, font=\small\sffamily\color{wsorange}]{Modbus PDU};
 \end{tikzpicture}
+}
 \end{center}
 
 \subsection{MBAP Header Fields}
@@ -1397,6 +1405,7 @@ CCST (ISA) & ISA & Networking fundamentals; protocol identification \\
 
 \bigskip
 \begin{center}
+\resizebox{\textwidth}{!}{%
 \begin{tikzpicture}
   \node[draw=wsblue, rounded corners=8pt, inner sep=14pt, fill=wsblue!6]{
     \parbox{0.8\textwidth}{\centering\sffamily\color{wsnavy}
@@ -1407,6 +1416,7 @@ CCST (ISA) & ISA & Networking fundamentals; protocol identification \\
     }
   };
 \end{tikzpicture}
+}
 \end{center}
 
 \end{document}

@@ -25,7 +25,7 @@ export default function Sidebar() {
   const [loginError, setLoginError] = useState('')
   const [loginLoading, setLoginLoading] = useState(false)
   const [showGuides, setShowGuides] = useState(false)
-  const [showChapters, setShowChapters] = useState(true)
+  const [showChapters, setShowChapters] = useState(false)
   const [showTraining, setShowTraining] = useState(false)
 
   useEffect(() => {

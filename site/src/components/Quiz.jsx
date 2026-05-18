@@ -278,14 +278,17 @@ function shuffle(arr, rng) {
   return a
 }
 
-function shuffleOptions(q, rng) {
+function shuffleOptions(q) {
   if (q.type !== 'mcq' && q.type !== 'scenario') return q
   const indices = q.options.map((_, i) => i)
-  const shuffled = shuffle(indices, rng)
+  for (let i = indices.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [indices[i], indices[j]] = [indices[j], indices[i]]
+  }
   return {
     ...q,
-    options: shuffled.map(i => q.options[i]),
-    answer: shuffled.indexOf(q.answer),
+    options: indices.map(i => q.options[i]),
+    answer: indices.indexOf(q.answer),
   }
 }
 
@@ -323,7 +326,7 @@ function prepareQuestions(questions, chapterId, level, attempt) {
   const normalized = questions.map(normalizeQuestion)
   const seed = (attempt + 1) * 31337 + chapterId.split('').reduce((a, c) => a + c.charCodeAt(0), 0) + level * 997
   const rng = seededRng(seed)
-  let pool = shuffle(normalized, rng).map(q => maybeFlip(shuffleOptions(q, seededRng(seed + q.id.charCodeAt(0))), seededRng(seed + 1), attempt))
+  let pool = shuffle(normalized, rng).map(q => maybeFlip(shuffleOptions(q), seededRng(seed + 1), attempt))
 
   // Interleaving: on attempt 3+, splice 2 questions from an adjacent chapter (Make It Stick)
   if (attempt >= 3) {
@@ -337,7 +340,7 @@ function prepareQuestions(questions, chapterId, level, attempt) {
         const sibRng = seededRng(seed + 7777)
         const picked = shuffle(rawSibling.map(normalizeQuestion), sibRng)
           .slice(0, 2)
-          .map(q => ({ ...shuffleOptions(q, seededRng(seed + 8888)), _interleavedFrom: siblingId }))
+          .map(q => ({ ...shuffleOptions(q), _interleavedFrom: siblingId }))
         if (pool.length > 3) pool.splice(2, 0, picked[0])
         if (picked.length > 1 && pool.length > 7) pool.splice(6, 0, picked[1])
       }

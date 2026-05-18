@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.9)  15 MAY 2026 17:52
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (TeX Live 2022) (preloaded format=pdflatex 2023.3.9)  18 MAY 2026 12:18
 entering extended mode
  restricted \write18 enabled.
  %&-line parsing enabled.
@@ -1422,8 +1422,8 @@ File: md-frame-0.mdf 2013/07/01\ 1.9b: md-frame-0
 \c@mdf@zref@counter=\count395
 Package zref Info: New property: mdf@pagevalue on input line 895.
 )
-LaTeX Font Info:    Trying to load font information for T1+ppl on input line 20
-9.
+LaTeX Font Info:    Trying to load font information for T1+ppl on input line 21
+1.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/t1ppl.fd
 File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
@@ -1431,36 +1431,36 @@ File: t1ppl.fd 2001/06/04 font definitions for T1/ppl.
 (./wireshark_study_guide.aux)
 \openout1 = `wireshark_study_guide.aux'.
 
-LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 209.
-LaTeX Font Info:    ... okay on input line 209.
-LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 209.
-LaTeX Font Info:    ... okay on input line 209.
-LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 209.
-LaTeX Font Info:    ... okay on input line 209.
-LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 209.
-LaTeX Font Info:    ... okay on input line 209.
-LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 209.
-LaTeX Font Info:    ... okay on input line 209.
-LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 209.
-LaTeX Font Info:    ... okay on input line 209.
-LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 209.
-LaTeX Font Info:    ... okay on input line 209.
-LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 209.
-LaTeX Font Info:    ... okay on input line 209.
-LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 209.
-LaTeX Font Info:    ... okay on input line 209.
-LaTeX Info: Redefining \microtypecontext on input line 209.
-Package microtype Info: Applying patch `item' on input line 209.
-Package microtype Info: Applying patch `toc' on input line 209.
-Package microtype Info: Applying patch `eqnum' on input line 209.
-Package microtype Info: Applying patch `footnote' on input line 209.
+LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 211.
+LaTeX Font Info:    ... okay on input line 211.
+LaTeX Font Info:    Checking defaults for OMS/cmsy/m/n on input line 211.
+LaTeX Font Info:    ... okay on input line 211.
+LaTeX Font Info:    Checking defaults for OT1/cmr/m/n on input line 211.
+LaTeX Font Info:    ... okay on input line 211.
+LaTeX Font Info:    Checking defaults for T1/cmr/m/n on input line 211.
+LaTeX Font Info:    ... okay on input line 211.
+LaTeX Font Info:    Checking defaults for TS1/cmr/m/n on input line 211.
+LaTeX Font Info:    ... okay on input line 211.
+LaTeX Font Info:    Checking defaults for OMX/cmex/m/n on input line 211.
+LaTeX Font Info:    ... okay on input line 211.
+LaTeX Font Info:    Checking defaults for U/cmr/m/n on input line 211.
+LaTeX Font Info:    ... okay on input line 211.
+LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 211.
+LaTeX Font Info:    ... okay on input line 211.
+LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 211.
+LaTeX Font Info:    ... okay on input line 211.
+LaTeX Info: Redefining \microtypecontext on input line 211.
+Package microtype Info: Applying patch `item' on input line 211.
+Package microtype Info: Applying patch `toc' on input line 211.
+Package microtype Info: Applying patch `eqnum' on input line 211.
+Package microtype Info: Applying patch `footnote' on input line 211.
 Package microtype Info: Generating PDF output.
 Package microtype Info: Character protrusion enabled (level 2).
 Package microtype Info: Using default protrusion set `alltext'.
 Package microtype Info: Automatic font expansion enabled (level 2),
 (microtype)             stretch: 20, shrink: 20, step: 1, non-selected.
 Package microtype Info: Using default expansion set `alltext-nott'.
-LaTeX Info: Redefining \showhyphens on input line 209.
+LaTeX Info: Redefining \showhyphens on input line 211.
 Package microtype Info: No adjustment of tracking.
 Package microtype Info: No adjustment of interword spacing.
 Package microtype Info: No adjustment of character kerning.
@@ -1528,7 +1528,7 @@ Package pgfplots notification 'compat/show suggested version=true': document ha
 s been generated with the most recent feature set (\pgfplotsset{compat=1.18}).
 
 \c@lstlisting=\count402
-Package hyperref Info: Link coloring ON on input line 209.
+Package hyperref Info: Link coloring ON on input line 211.
 (/usr/local/texlive/2022/texmf-dist/tex/latex/hyperref/nameref.sty
 Package: nameref 2021-04-02 v2.47 Cross-referencing by name of section
 
@@ -1543,16 +1543,16 @@ Package: gettitlestring 2019/12/15 v1.6 Cleanup title references (HO)
 )
 Redoing nameref's sectioning
 Redoing nameref's label
-LaTeX Info: Redefining \nameref on input line 209.
-LaTeX Info: Redefining \ref on input line 209.
-LaTeX Info: Redefining \pageref on input line 209.
-LaTeX Info: Redefining \nameref on input line 209.
+LaTeX Info: Redefining \nameref on input line 211.
+LaTeX Info: Redefining \ref on input line 211.
+LaTeX Info: Redefining \pageref on input line 211.
+LaTeX Info: Redefining \nameref on input line 211.
 (./wireshark_study_guide.out) (./wireshark_study_guide.out)
 \@outlinefile=\write5
 \openout5 = `wireshark_study_guide.out'.
 
 LaTeX Font Info:    Trying to load font information for T1+phv on input line 21
-7.
+9.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/t1phv.fd
 File: t1phv.fd 2020/03/25 scalable font definitions for T1/phv.
@@ -1562,7 +1562,7 @@ Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
 LaTeX Font Info:    Trying to load font information for OT1+lmr on input line 2
-33.
+41.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/lm/ot1lmr.fd
 File: ot1lmr.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
@@ -1572,30 +1572,30 @@ File: mt-cmr.cfg 2013/05/19 v2.2 microtype config. file: Computer Modern Roman
 (RS)
 )
 LaTeX Font Info:    Trying to load font information for OML+lmm on input line 2
-33.
+41.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/lm/omllmm.fd
 File: omllmm.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMS+lmsy on input line 
-233.
+241.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/lm/omslmsy.fd
 File: omslmsy.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    Trying to load font information for OMX+lmex on input line 
-233.
+241.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/lm/omxlmex.fd
 File: omxlmex.fd 2015/05/01 v1.6.1 Font defs for Latin Modern
 )
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <14.4> on input line 233.
+(Font)              <14.4> on input line 241.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <10> on input line 233.
+(Font)              <10> on input line 241.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <7> on input line 233.
-LaTeX Font Info:    Trying to load font information for U+msa on input line 233
+(Font)              <7> on input line 241.
+LaTeX Font Info:    Trying to load font information for U+msa on input line 241
 .
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsa.fd
@@ -1604,7 +1604,7 @@ File: umsa.fd 2013/01/14 v3.01 AMS symbols A
 (/usr/local/texlive/2022/texmf-dist/tex/latex/microtype/mt-msa.cfg
 File: mt-msa.cfg 2006/02/04 v1.1 microtype config. file: AMS symbols (a) (RS)
 )
-LaTeX Font Info:    Trying to load font information for U+msb on input line 233
+LaTeX Font Info:    Trying to load font information for U+msb on input line 241
 .
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/amsfonts/umsb.fd
@@ -1612,21 +1612,11 @@ File: umsb.fd 2013/01/14 v3.01 AMS symbols B
 )
 (/usr/local/texlive/2022/texmf-dist/tex/latex/microtype/mt-msb.cfg
 File: mt-msb.cfg 2005/06/01 v1.0 microtype config. file: AMS symbols (b) (RS)
-)
-Overfull \hbox (34.35606pt too wide) in paragraph at lines 235--236
- [][] 
- []
+) [1
 
-[1
-
-{/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}]
-[2
+{/usr/local/texlive/2022/texmf-var/fonts/map/pdftex/updmap/pdftex.map}] [2
 
 ]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 245--245
-[][] 
- []
-
 (./wireshark_study_guide.toc
 LaTeX Font Info:    External font `lmex10' loaded for size
 (Font)              <12> on input line 1.
@@ -1644,16 +1634,11 @@ Underfull \vbox (badness 1052) has occurred while \output is active []
 
 
 ]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 255--255
-[][]  
- []
-
-
 pdfTeX warning (ext4): destination with the same identifier (name{page.1}) has 
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.275 
+l.281 
        [1
 
 ]
@@ -1661,115 +1646,106 @@ pdfTeX warning (ext4): destination with the same identifier (name{page.2}) has
 been already used, duplicate ignored
 <to be read again> 
                    \relax 
-l.295 \end{keyconcept}
+l.301 \end{keyconcept}
                        [2]
-LaTeX Font Info:    Trying to load font information for T1+fvm on input line 30
-7.
+LaTeX Font Info:    Trying to load font information for T1+fvm on input line 31
+3.
 
 (/usr/local/texlive/2022/texmf-dist/tex/latex/bera/t1fvm.fd
 File: t1fvm.fd 2004/09/07 scalable font definitions for T1/fvm.
 )
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
-(Font)              scaled to size 10.20007pt on input line 307.
+(Font)              scaled to size 10.20007pt on input line 313.
 Package microtype Info: Loading generic protrusion settings for font family
 (microtype)             `fvm' (encoding: T1).
 (microtype)             For optimal results, create family-specific settings.
 (microtype)             See the microtype manual for details.
- [3] [4]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 356--356
-[][]  
- []
-
-[5
+ [3] [4] [5
 
 ]
 LaTeX Font Info:    Trying to load font information for TS1+ppl on input line 3
-76.
- (/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ppl.fd
+82.
+
+(/usr/local/texlive/2022/texmf-dist/tex/latex/psnfss/ts1ppl.fd
 File: ts1ppl.fd 2001/06/04 font definitions for TS1/ppl.
 )
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
-(Font)              scaled to size 9.30756pt on input line 383.
+(Font)              scaled to size 9.30756pt on input line 389.
 LaTeX Font Info:    Font shape `T1/phv/m/it' in size <10> not available
-(Font)              Font shape `T1/phv/m/sl' tried instead on input line 399.
+(Font)              Font shape `T1/phv/m/sl' tried instead on input line 405.
 LaTeX Font Info:    External font `lmex10' loaded for size
-(Font)              <5> on input line 399.
+(Font)              <5> on input line 405.
 
-Underfull \hbox (badness 5403) in paragraph at lines 399--399
+Underfull \hbox (badness 5403) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) tap on the
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--399
+Underfull \hbox (badness 10000) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) PLC-to-HMI
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--399
+Underfull \hbox (badness 10000) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) 18 months
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--399
+Underfull \hbox (badness 10000) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) be-fore any-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--399
+Underfull \hbox (badness 10000) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) one looked
  []
 
 
-Underfull \hbox (badness 1881) in paragraph at lines 399--399
+Underfull \hbox (badness 1881) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) at the data.
  []
 
 
-Underfull \hbox (badness 1152) in paragraph at lines 399--399
+Underfull \hbox (badness 1152) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) The cap-ture
  []
 
 
-Underfull \hbox (badness 5832) in paragraph at lines 399--399
+Underfull \hbox (badness 5832) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) polling 10$\OMS/lmsy/m/n/10 ^^B$
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--399
+Underfull \hbox (badness 10000) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) more fre-
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--399
+Underfull \hbox (badness 10000) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) had been
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--399
+Underfull \hbox (badness 10000) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) mis-con-fig-
  []
 
 
-Underfull \hbox (badness 5022) in paragraph at lines 399--399
+Underfull \hbox (badness 5022) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) ured dur-ing
  []
 
 
-Underfull \hbox (badness 5908) in paragraph at lines 399--399
+Underfull \hbox (badness 5908) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) an up-grade
  []
 
 
-Underfull \hbox (badness 10000) in paragraph at lines 399--399
+Underfull \hbox (badness 10000) in paragraph at lines 405--405
 \T1/phv/m/n/10 (+20) and never
  []
 
-[6] [7] [8]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 476--476
-[][]  
- []
-
-[9
+[6] [7] [8] [9
 
 ]
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1777,28 +1753,19 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [10]
 
 Package tcolorbox Warning: Using nobreak failed. Try to enlarge `lines before b
-reak' or set page breaks manually on input line 572.
+reak' or set page breaks manually on input line 578.
 
 [11]
-Overfull \hbox (63.33128pt too wide) in paragraph at lines 604--605
+Overfull \hbox (63.33128pt too wide) in paragraph at lines 610--611
 []\T1/ppl/m/n/12 (-20) Modbus write com-mands in yel-low: fil-ter []\T1/fvm/m/n
 /12 modbus.func_code >= 5 && modbus.func_code
  []
 
-[12]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 621--621
-[][]  
- []
-
-[13
+[12] [13
 
 ] [14] [15] [16
 
 ]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 717--717
-[][]  
- []
-
 
 ! LaTeX Error: Something's wrong--perhaps a missing \item.
 
@@ -1806,8 +1773,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.737 ... minimum width=1.8cm] (tid) {Trans. ID\\(
-                                                  2 bytes)};
+l.762 }
+       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
@@ -1818,8 +1785,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.738 ...cm, right=0pt of tid] (pid) {Proto. ID\\(
-                                                  2 bytes)};
+l.762 }
+       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
@@ -1830,8 +1797,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.739 ...1.8cm, right=0pt of pid] (len) {Length\\(
-                                                  2 bytes)};
+l.762 }
+       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
@@ -1842,8 +1809,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.740 ....2cm, right=0pt of len] (uid) {Unit ID\\(
-                                                  1 byte)};
+l.762 }
+       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
@@ -1854,8 +1821,8 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.741 ...h=1.2cm, right=0pt of uid] (fc) {Func.\\C
-                                                  ode};
+l.762 }
+       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
@@ -1866,59 +1833,44 @@ See the LaTeX manual or LaTeX Companion for explanation.
 Type  H <return>  for immediate help.
  ...                                              
                                                   
-l.742 ...h=2.8cm, right=0pt of fc] (data) {Data\\(
-                                                  variable)};
+l.762 }
+       
 Try typing  <return>  to proceed.
 If that doesn't work, type  X <return>  to quit.
 
 LaTeX Font Info:    Font shape `T1/fvm/m/n' will be
-(Font)              scaled to size 6.80005pt on input line 744.
-
-Overfull \hbox (61.03316pt too wide) in paragraph at lines 754--755
- [] 
- []
-
+(Font)              scaled to size 6.80005pt on input line 762.
 [17]
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [18]
-Underfull \hbox (badness 10000) in paragraph at lines 817--818
+Underfull \hbox (badness 10000) in paragraph at lines 825--826
 \T1/ppl/m/n/12 (+20) Or com-bined: []\T1/fvm/m/n/12 modbus.func_code == 5 || mo
 dbus.func_code == 6 ||
  []
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 826.
+(hyperref)                removing `math shift' on input line 834.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `\to' on input line 826.
+(hyperref)                removing `\to' on input line 834.
 
 
 Package hyperref Warning: Token not allowed in a PDF string (Unicode):
-(hyperref)                removing `math shift' on input line 826.
+(hyperref)                removing `math shift' on input line 834.
 
 [19] [20]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 833--833
-[][]  
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [21
 
 ]
-[22] [23] [24]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 943--943
-[][]  
- []
-
-[25
+[22] [23] [24] [25
 
 ] [26]
-Overfull \hbox (4.2751pt too wide) in paragraph at lines 1005--1006
+Overfull \hbox (4.2751pt too wide) in paragraph at lines 1013--1014
 []\T1/ppl/m/n/12 (-20) Run Statis-tics $\OMS/lmsy/m/n/12 !$ \T1/ppl/m/n/12 (-20
 ) Con-ver-sa-tions to see all OPC UA TCP con-nec-tions (source:port
  []
@@ -1926,46 +1878,31 @@ Overfull \hbox (4.2751pt too wide) in paragraph at lines 1005--1006
 [27] [28
 
 ]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 1013--1013
-[][]  
- []
-
-
 Underfull \vbox (badness 1824) has occurred while \output is active []
 
  [29]
 [30] [31] [32]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 1102--1102
-[][]  
- []
-
-
 Underfull \vbox (badness 10000) has occurred while \output is active []
 
  [33
 
 ]
 [34]
-Overfull \hbox (19.96722pt too wide) in paragraph at lines 1151--1152
+Overfull \hbox (19.96722pt too wide) in paragraph at lines 1159--1160
 []\T1/ppl/b/n/12 (-20) Trim by time: \T1/fvm/m/n/12 editcap -A "2026-05-15 08:0
 0:00" -B "2026-05-15 09:00:00"
  []
 
-[35] [36]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 1222--1222
-[][]  
- []
-
-[37
+[35] [36] [37
 
 ]
-Overfull \hbox (34.81812pt too wide) in paragraph at lines 1276--1277
+Overfull \hbox (34.81812pt too wide) in paragraph at lines 1284--1285
 []\T1/ppl/m/n/12 (-20) Filter: []\T1/fvm/m/n/12 modbus.func_code == 5 || modbus
 .func_code == 6 || modbus.func_code
  []
 
 [38]
-Overfull \hbox (9.30179pt too wide) in paragraph at lines 1320--1321
+Overfull \hbox (9.30179pt too wide) in paragraph at lines 1328--1329
 []|[]\T1/fvm/m/n/12 tcp.analysis.retransmission[]|  
  []
 
@@ -1975,7 +1912,7 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [39]
 
 Package tcolorbox Warning: Using nobreak failed. Try to enlarge `lines before b
-reak' or set page breaks manually on input line 1332.
+reak' or set page breaks manually on input line 1340.
 
 
 Underfull \vbox (badness 10000) has occurred while \output is active []
@@ -1983,25 +1920,15 @@ Underfull \vbox (badness 10000) has occurred while \output is active []
  [40]
 
 Package tcolorbox Warning: Using nobreak failed. Try to enlarge `lines before b
-reak' or set page breaks manually on input line 1356.
+reak' or set page breaks manually on input line 1364.
 
 [41] [42
 
-]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 1361--1361
-[][]  
- []
-
-[43
+] [43
 
 ] [44
 
-]
-Overfull \hbox (2.5pt too wide) in paragraph at lines 1374--1374
-[][]  
- []
-
-[45]
+] [45]
 \tf@toc=\write6
 \openout6 = `wireshark_study_guide.toc'.
 
@@ -2012,7 +1939,7 @@ Package rerunfilecheck Info: File `wireshark_study_guide.out' has not changed.
 Here is how much of TeX's memory you used:
  47222 strings out of 478268
  1058497 string characters out of 5846348
- 1733871 words of memory out of 5000000
+ 1733891 words of memory out of 5000000
  64034 multiletter control sequences out of 15000+600000
  568742 words of font info for 328 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
@@ -2028,7 +1955,7 @@ a.pfb></usr/local/texlive/2022/texmf-dist/fonts/type1/urw/helvetic/uhvr8a.pfb><
 ocal/texlive/2022/texmf-dist/fonts/type1/urw/palatino/uplb8a.pfb></usr/local/te
 xlive/2022/texmf-dist/fonts/type1/urw/palatino/uplr8a.pfb></usr/local/texlive/2
 022/texmf-dist/fonts/type1/urw/palatino/uplri8a.pfb>
-Output written on wireshark_study_guide.pdf (51 pages, 252930 bytes).
+Output written on wireshark_study_guide.pdf (51 pages, 253291 bytes).
 PDF statistics:
  869 PDF objects out of 1000 (max. 8388607)
  766 compressed objects within 8 object streams

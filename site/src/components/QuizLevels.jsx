@@ -245,7 +245,7 @@ export default function QuizLevels({ chapterId }) {
   const levels = {
     level1: isLegacy ? data : (data.level1 || []),
     level2: isLegacy ? [] : (data.level2 || []),
-    level3: isLegacy ? [] : (Array.isArray(data.level3) ? data.level3 : (data.level3?.questions || [])),
+    level3: isLegacy ? [] : (Array.isArray(data.level3) ? data.level3 : (Array.isArray(data.level3) ? data.level3 : (data.level3?.questions || []))),
     scenario: isLegacy ? [] : (data.scenario || []),
   }
 

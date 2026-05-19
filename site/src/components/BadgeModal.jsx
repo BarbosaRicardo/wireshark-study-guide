@@ -134,21 +134,21 @@ export function BadgeHex({ badge, earned, size = 40, tooltip = true }) {
             transform: 'translateX(-50%) translateY(-7px)',
             background: 'rgba(10,16,30,0.97)',
             border: `1px solid ${earned ? badge.color + '44' : 'rgba(255,255,255,0.08)'}`,
-            borderRadius: 7,
-            padding: '5px 10px',
+            borderRadius: 8,
+            padding: '7px 11px',
             whiteSpace: 'nowrap',
             zIndex: 300,
             pointerEvents: 'none',
+            maxWidth: 220,
+            whiteSpace: 'normal',
           }}
         >
-          <div style={{ fontSize: '0.68rem', fontWeight: 700, color: earned ? badge.color : 'rgba(255,255,255,0.3)' }}>
-            {badge.name}
+          <div style={{ fontSize: '0.68rem', fontWeight: 700, color: earned ? badge.color : 'rgba(255,255,255,0.45)', marginBottom: 3 }}>
+            {earned ? '✓ ' : ''}{badge.name}
           </div>
-          {!earned && (
-            <div style={{ fontSize: '0.58rem', color: 'rgba(255,255,255,0.22)', marginTop: 1 }}>
-              Locked
-            </div>
-          )}
+          <div style={{ fontSize: '0.6rem', color: earned ? 'rgba(255,255,255,0.5)' : 'rgba(255,255,255,0.3)', lineHeight: 1.4 }}>
+            {earned ? badge.desc : badge.hint}
+          </div>
         </div>
       )}
     </div>

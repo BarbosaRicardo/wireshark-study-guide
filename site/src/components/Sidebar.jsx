@@ -173,10 +173,7 @@ export default function Sidebar() {
     </NavLink>
   )
   const AllGuidesItem = () => {
-    const isGH = import.meta.env.BASE_URL !== '/'
-    const guideUrl = (slug) => isGH
-      ? `https://barbosaricardo.github.io/${slug}-study-guide/`
-      : `https://${slug}-study-guide.vercel.app/`
+    const guideUrl = (slug) => `https://barbosaricardo.github.io/${slug}-study-guide/`
     const hubUrl = 'https://scada-hub.vercel.app'
     const GUIDE_LIST = [
       { name: 'Modbus', slug: 'modbus', color: '#60a5fa', Icon: Network },

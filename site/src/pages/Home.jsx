@@ -57,12 +57,12 @@ export default function Home() {
     try {
       const today = new Date().toISOString().split('T')[0]
       const yesterday = new Date(Date.now() - 86400000).toISOString().split('T')[0]
-      const lastDate = localStorage.getItem('wireshark_streak_date') || ''
-      const cur = parseInt(localStorage.getItem('wireshark_streak') || '0', 10)
+      const lastDate = localStorage.getItem('scadahub_streak_date') || ''
+      const cur = parseInt(localStorage.getItem('scadahub_streak') || '0', 10)
       if (lastDate === today) return cur
       const next = lastDate === yesterday ? cur + 1 : 1
-      localStorage.setItem('wireshark_streak', String(next))
-      localStorage.setItem('wireshark_streak_date', today)
+      localStorage.setItem('scadahub_streak', String(next))
+      localStorage.setItem('scadahub_streak_date', today)
       return next
     } catch { return 1 }
   })

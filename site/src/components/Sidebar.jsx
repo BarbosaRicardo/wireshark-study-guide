@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import { NavLink } from 'react-router-dom'
 import {
-  Menu, X, ScanSearch, BarChart2, Home,
-  Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard, LayoutGrid, LogIn, LogOut
-, FileText, ChevronDown, Code2, Sliders, Server, LayoutDashboard, GraduationCap, CheckCircle2 } from 'lucide-react'
+  Menu, X, ScanSearch, BookOpen, BarChart2, Home,
+  Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, CreditCard, LayoutGrid, LogIn, LogOut,
+  FileText, ChevronDown, Code2, Sliders, Server, LayoutDashboard, GraduationCap, CheckCircle2 } from 'lucide-react'
 import { CHAPTERS } from '../data/chapters'
 import { useProgress } from '../hooks/useProgress'
 import { supabase } from '../lib/supabase'

@@ -290,3 +290,16 @@ pre { box-shadow: none !important; border-color: var(--cr-line) !important; }
 .panel { background: var(--cr-panel); border: 1px solid var(--cr-line); }
 
 ::-webkit-scrollbar-thumb { border-radius: 0 !important; }
+
+/* ── GIF tone-down (control-room pass, 2026-06-11) ──
+   Smaller, desaturated, panel-framed. Same GIFs, lower volume. */
+.gif-container img,
+img[src*="giphy"],
+img[src*="tenor"] {
+  max-height: 130px !important;
+  filter: saturate(0.65) brightness(0.92);
+  opacity: 0.9;
+  border: 1px solid var(--cr-line);
+  border-radius: 0 !important;
+}
+.gif-container { margin-top: 0.5rem; margin-bottom: 0.5rem; }

@@ -161,3 +161,132 @@ code:not(pre code) {
 @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 .shadow-glow-green { box-shadow: 0 0 6px rgba(52,211,153,0.5); }
 .gif-container img { border-radius: 14px; max-height: 200px; object-fit: cover; box-shadow: 0 8px 32px rgba(0,0,0,0.5); }
+
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   SCADA-HUB V2 CONTROL-ROOM ALIGNMENT
+   Appended override layer — flattens glassmorphism into the hub's
+   industrial control-room treatment. Accent: #0ea5e9
+   ═══════════════════════════════════════════════════════════════════════════ */
+
+:root {
+  --cr-accent: #0ea5e9;
+  --cr-bg: #04070a;
+  --cr-panel: #080d12;
+  --cr-panel2: #0b1219;
+  --cr-line: #16222e;
+  --cr-line-bright: #24394a;
+  --cr-ink: #d7e4ee;
+  --cr-ink-dim: #7b8fa1;
+}
+
+/* flat near-black stage — no gradient blooms */
+body {
+  background-color: var(--cr-bg) !important;
+  background-image: none !important;
+}
+
+/* square the world (circles stay circles) */
+.rounded, .rounded-sm, .rounded-md, .rounded-lg, .rounded-xl,
+.rounded-2xl, .rounded-3xl,
+.card, .glass, .btn-primary, .btn-secondary, .chapter-nav-item,
+pre, code:not(pre code), .gif-container img {
+  border-radius: 0 !important;
+}
+
+/* glass → flat panel */
+.card, .glass {
+  background: var(--cr-panel) !important;
+  border: 1px solid var(--cr-line) !important;
+  box-shadow: none !important;
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+.card:hover {
+  background: var(--cr-panel2) !important;
+  border-color: color-mix(in srgb, var(--cr-accent) 50%, transparent) !important;
+  box-shadow: none !important;
+}
+
+/* buttons → console controls */
+.btn-primary, .btn-secondary {
+  font-family: 'JetBrains Mono', monospace !important;
+  letter-spacing: 0.1em !important;
+  text-transform: uppercase;
+  font-size: 0.78rem !important;
+  box-shadow: none !important;
+}
+.btn-primary {
+  background: color-mix(in srgb, var(--cr-accent) 9%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--cr-accent) 55%, transparent) !important;
+  color: var(--cr-accent) !important;
+}
+.btn-primary:hover {
+  background: color-mix(in srgb, var(--cr-accent) 18%, transparent) !important;
+  filter: none !important;
+  box-shadow: 0 0 14px color-mix(in srgb, var(--cr-accent) 20%, transparent) !important;
+}
+.btn-secondary {
+  background: transparent !important;
+  border: 1px solid var(--cr-line-bright) !important;
+  color: var(--cr-ink) !important;
+}
+.btn-secondary:hover {
+  border-color: color-mix(in srgb, var(--cr-accent) 55%, transparent) !important;
+  color: var(--cr-accent) !important;
+  background: transparent !important;
+}
+
+/* sidebar nav → flat active state */
+.chapter-nav-item.active {
+  background: color-mix(in srgb, var(--cr-accent) 9%, transparent) !important;
+  border: 1px solid color-mix(in srgb, var(--cr-accent) 40%, transparent) !important;
+  box-shadow: none !important;
+  color: var(--cr-accent) !important;
+}
+
+/* every Tailwind gradient flattens to solid accent */
+[class*="bg-gradient-to"] {
+  --tw-gradient-from: var(--cr-accent) !important;
+  --tw-gradient-via: var(--cr-accent) !important;
+  --tw-gradient-to: var(--cr-accent) !important;
+  --tw-gradient-stops: var(--cr-accent), var(--cr-accent) !important;
+}
+
+/* decorative glow + blur off */
+[class*="shadow-glow"], .glow-pulse, .animate-glow-pulse {
+  box-shadow: none !important;
+  animation: none !important;
+}
+[class*="backdrop-blur"] {
+  backdrop-filter: none !important;
+  -webkit-backdrop-filter: none !important;
+}
+
+/* legacy navy / slate surfaces → panel black */
+[class*="bg-navy"] { background-color: var(--cr-panel) !important; }
+[class*="bg-slate-8"], [class*="bg-slate-9"] { background-color: var(--cr-panel) !important; }
+
+/* flat progress + code */
+.progress-bar { background: var(--cr-accent) !important; animation: none !important; }
+pre { box-shadow: none !important; border-color: var(--cr-line) !important; }
+
+/* hub helper classes for component sweeps */
+.readout {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 0.6875rem;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  color: var(--cr-ink-dim);
+}
+.led {
+  display: inline-block;
+  width: 7px; height: 7px;
+  border-radius: 9999px;
+  background: var(--led-color, var(--cr-accent));
+  box-shadow: 0 0 6px var(--led-color, var(--cr-accent));
+  flex-shrink: 0;
+}
+.panel { background: var(--cr-panel); border: 1px solid var(--cr-line); }
+
+::-webkit-scrollbar-thumb { border-radius: 0 !important; }

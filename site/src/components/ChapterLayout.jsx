@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { ChevronLeft, ChevronRight, BookOpen, Home, ScanSearch, Wifi, Filter, Layers, Network, Zap, Globe, Shield, Terminal, FlaskConical, Clock, HelpCircle, ChevronDown } from 'lucide-react'
 import { CHAPTERS, CHAPTER_HOOKS, CHAPTER_RETRIEVAL } from '../data/chapters'
 import { useProgress } from '../hooks/useProgress'
+import MatrixBadge from './MatrixBadge'
 
 const READ_TIME = {
   intro: 10, capture: 12, filters: 14, dissectors: 12,
@@ -232,6 +233,9 @@ export default function ChapterLayout({ chapterId, title, children, prev, next }
           )}
           <div className="mt-4 h-px" style={{ background: 'linear-gradient(90deg, rgba(0,210,160,0.7), rgba(6,182,212,0.4), transparent)' }} />
         </div>
+
+        {/* Company skills-matrix coverage — the survey material this chapter teaches */}
+        <MatrixBadge chapterId={chapterId} />
 
         {/* Spaced retrieval banner */}
         {retrievalChapter && CHAPTER_RETRIEVAL[retrievalChapter.id] && (

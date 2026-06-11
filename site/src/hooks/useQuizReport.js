@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react'
+import { supabase } from '../lib/supabase'
 
 const SUPABASE_URL = 'https://qacvqifwvqjmyzvryxkw.supabase.co'
 const SUPABASE_KEY = 'sb_publishable_vRSczSzVTBwJ3CteyGUdeA_XD13TiWc'
@@ -25,6 +26,17 @@ export async function recordQuizSubmission({ chapter, level, score, total, attem
     attempt,
   }
 
+
+  // Attach the signed-in operator (if any) so the hub's Operator Console can sync
+  let accessToken = null
+  try {
+    const { data } = await supabase.auth.getSession()
+    if (data.session) {
+      record.user_id = data.session.user.id
+      accessToken = data.session.access_token
+    }
+  } catch {}
+
   try {
     const existing = JSON.parse(localStorage.getItem(LOCAL_KEY) || '[]')
     existing.push({ id: Date.now().toString(36) + Math.random().toString(36).slice(2, 6), ts: Date.now(), ...record })
@@ -33,7 +45,7 @@ export async function recordQuizSubmission({ chapter, level, score, total, attem
 
   fetch(`${SUPABASE_URL}/rest/v1/quiz_submissions`, {
     method: 'POST',
-    headers: { ...HEADERS, 'Prefer': 'return=minimal' },
+    headers: { ...HEADERS, ...(accessToken ? { Authorization: `Bearer ${accessToken}` } : {}), 'Prefer': 'return=minimal' },
     body: JSON.stringify(record),
   }).catch(() => {})
 }

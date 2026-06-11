@@ -154,6 +154,14 @@ not arp and not icmp and (mbtcp or dnp3 or opcua)`}</pre>
       </Callout>
 
       <FunFact index={2} />
+      {/* FILTER-QUICKREF — survey/orphan audit 2026-06-11 */}
+      <div className="card mb-6">
+        <h3 className="text-lg font-bold text-white mb-2">Field-Name Quick Reference (The Filters You Will Actually Type)</h3>
+        <p className="text-sm text-slate-300 leading-relaxed mb-2"><code>icmp.type == 8</code> — ping echo requests only. <code>eth.addr == aa:bb:cc:dd:ee:ff</code> — a MAC as source or destination. <code>vlan.id == 100</code> — traffic tagged VLAN 100. <code>tcp.len &gt; 0</code> — TCP segments that actually carry payload.</p>
+        <p className="text-sm text-slate-300 leading-relaxed mb-2">Industrial: <code>mbtcp.trans_id == 0</code> — Modbus/TCP transaction ID zero; <code>mbtcp.unitid == 7</code> — a specific slave unit ID; <code>opcua.servicenodeid == 527</code> — OPC UA Browse service calls (and during ActivateSession the <b>UserIdentityToken</b> extension object carries the user identity).</p>
+        <p className="text-sm text-slate-300 leading-relaxed mb-2">And the one that finds trouble across every protocol at once: <code>_ws.expert</code> — every frame Wireshark flagged with an Expert Info error, warning, or note.</p>
+      </div>
+
 
       <QuizLevels chapterId="filters" />
     </ChapterLayout>
